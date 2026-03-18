@@ -13,13 +13,15 @@
   <!-- ══ NAV ══ -->
   <header id="header">
     <nav class="nav-inner">
-      <button class="nav-menu-btn" onclick="toggleMenu()" aria-label="Menú">
-        <span></span><span></span>
-      </button>
+      <div class="nav-left">
+        <button class="nav-menu-btn" onclick="toggleMenu()" aria-label="Menú">
+          <span></span><span></span>
+        </button>
+      </div>
       <a class="nav-brand" href="#">BRITE</a>
       <div class="nav-right">
         <div id="carritoIcon" class="carrito-icon" onclick="abrirCarrito()">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           <span id="carritoCount" class="carrito-count">0</span>
         </div>
         <a class="nav-wa" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20quiero%20ver%20el%20catálogo" target="_blank">
@@ -50,11 +52,11 @@
     </div>
     <div class="hero-visual">
       <div class="hero-card hc1">
-        <img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestido de rayas">
+        <img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestido de rayas" onclick="abrirZoom(this)">
         <p class="hc-label">Vestido · Disponible</p>
       </div>
       <div class="hero-card hc2">
-        <img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Jeans wide leg">
+        <img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Jeans wide leg" onclick="abrirZoom(this)">
         <p class="hc-label">Jeans · Disponible</p>
       </div>
     </div>
@@ -109,12 +111,31 @@
       <h2>Catálogo</h2>
     </div>
 
+    <!-- ══ BARRA BÚSQUEDA + FILTROS ══ -->
+    <div class="barra-busqueda">
+      <div class="busqueda-input-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar prenda..." oninput="filtrarProductos()">
+        <button class="busqueda-clear" id="searchClear" onclick="limpiarBusqueda()" style="display:none">✕</button>
+      </div>
+      <div class="filtros-wrap">
+        <button class="filtro-btn active" data-filtro="todos" onclick="setFiltro(this)">Todos</button>
+        <button class="filtro-btn" data-filtro="vestidos" onclick="setFiltro(this)">Vestidos</button>
+        <button class="filtro-btn" data-filtro="blusas" onclick="setFiltro(this)">Blusas</button>
+        <button class="filtro-btn" data-filtro="pantalones" onclick="setFiltro(this)">Pantalones</button>
+        <button class="filtro-btn" data-filtro="abrigos" onclick="setFiltro(this)">Abrigos</button>
+        <button class="filtro-btn" data-filtro="zapatos" onclick="setFiltro(this)">Zapatos</button>
+        <button class="filtro-btn" data-filtro="accesorios" onclick="setFiltro(this)">Accesorios</button>
+      </div>
+      <p class="filtro-resultado" id="filtroResultado"></p>
+    </div>
+
     <!-- VESTIDOS -->
     <div class="cat-section-title" id="vestidos">Vestidos</div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="vestidos" data-nombre="vestido de rayas halter">
         <div class="product-img">
-          <img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestido de rayas">
+          <img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestido de rayas" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -124,9 +145,9 @@
           <a class="product-btn" onclick="agregarCarrito('Vestido de rayas halter', 349, 'imgs/M_slide_woman_dresses_-1.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="vestidos" data-nombre="conjunto cuadros azul">
         <div class="product-img">
-          <img src="imgs/01159741407-p.jpg" alt="Vestido cuadros azul">
+          <img src="imgs/01159741407-p.jpg" alt="Vestido cuadros azul" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -136,9 +157,9 @@
           <a class="product-btn" onclick="agregarCarrito('Conjunto cuadros azul', 329, 'imgs/01159741407-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="vestidos" data-nombre="conjunto cuadros verde">
         <div class="product-img">
-          <img src="imgs/01159741711-p.jpg" alt="Conjunto cuadros verde">
+          <img src="imgs/01159741711-p.jpg" alt="Conjunto cuadros verde" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -153,9 +174,9 @@
     <!-- BLUSAS Y TOPS -->
     <div class="cat-section-title" id="blusas">Blusas y tops</div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="blusas" data-nombre="top corsé de tirantes">
         <div class="product-img">
-          <img src="imgs/01097741505-p.jpg" alt="Top de tirantes con pantalón">
+          <img src="imgs/01097741505-p.jpg" alt="Top de tirantes con pantalón" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -167,7 +188,7 @@
       </div>
       <div class="product-card reveal product-card--wide">
         <div class="product-img">
-          <img src="imgs/05111190812-p1.jpg" alt="Hoodie gris oversize">
+          <img src="imgs/05111190812-p1.jpg" alt="Hoodie gris oversize" onclick="abrirZoom(this)">
           <span class="badge badge--dark">Nueva llegada</span>
         </div>
         <div class="product-info">
@@ -182,9 +203,9 @@
     <!-- PANTALONES -->
     <div class="cat-section-title" id="pantalones">Pantalones</div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="jeans wide leg azul claro">
         <div class="product-img">
-          <img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Jeans wide leg">
+          <img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Jeans wide leg" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -194,9 +215,9 @@
           <a class="product-btn" onclick="agregarCarrito('Jeans wide leg azul claro', 599, 'imgs/M_slide_woman_jeans_-1.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="pantalón cuadros con lazo">
         <div class="product-img">
-          <img src="imgs/01209172700-a4o.jpg" alt="Pantalón cuadros café">
+          <img src="imgs/01209172700-a4o.jpg" alt="Pantalón cuadros café" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -206,9 +227,9 @@
           <a class="product-btn" onclick="agregarCarrito('Pantalón cuadros con lazo', 699, 'imgs/01209172700-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="pantalón negro acampanado">
         <div class="product-img">
-          <img src="imgs/05112741800-a4o.jpg" alt="Pantalón negro acampanado">
+          <img src="imgs/05112741800-a4o.jpg" alt="Pantalón negro acampanado" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -218,9 +239,9 @@
           <a class="product-btn" onclick="agregarCarrito('Pantalón negro acampanado', 499, 'imgs/05112741800-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="pantalón animal print">
         <div class="product-img">
-          <img src="imgs/08990184800-p.jpg" alt="Pantalón animal print">
+          <img src="imgs/08990184800-p.jpg" alt="Pantalón animal print" onclick="abrirZoom(this)">
           <span class="badge badge--dark">Tendencia</span>
         </div>
         <div class="product-info">
@@ -235,9 +256,9 @@
     <!-- ABRIGOS Y CHAMARRAS -->
     <div class="cat-section-title" id="chamarras">Abrigos y chamarras</div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="gabardina gamuza café">
         <div class="product-img">
-          <img src="imgs/01142200830-p.jpg" alt="Gabardina café ante">
+          <img src="imgs/01142200830-p.jpg" alt="Gabardina café ante" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -247,9 +268,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gabardina gamuza café', 1299, 'imgs/01142200830-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="abrigo largo beige">
         <div class="product-img">
-          <img src="imgs/01688006774-p.jpg" alt="Abrigo beige largo">
+          <img src="imgs/01688006774-p.jpg" alt="Abrigo beige largo" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -259,9 +280,9 @@
           <a class="product-btn" onclick="agregarCarrito('Abrigo largo beige', 1499, 'imgs/01688006774-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="chamarra peluche café">
         <div class="product-img">
-          <img src="imgs/06637407830-p.jpg" alt="Chamarra peluche café">
+          <img src="imgs/06637407830-p.jpg" alt="Chamarra peluche café" onclick="abrirZoom(this)">
           <span class="badge badge--dark">Favorita</span>
         </div>
         <div class="product-info">
@@ -271,9 +292,9 @@
           <a class="product-btn" onclick="agregarCarrito('Chamarra peluche café', 1599, 'imgs/06637407830-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="abrigo negro oversized">
         <div class="product-img">
-          <img src="imgs/06891200800-p.jpg" alt="Abrigo negro oversized">
+          <img src="imgs/06891200800-p.jpg" alt="Abrigo negro oversized" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -283,9 +304,9 @@
           <a class="product-btn" onclick="agregarCarrito('Abrigo negro oversized', 999, 'imgs/06891200800-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="chamarra denim azul">
         <div class="product-img">
-          <img src="imgs/08995626606-p.jpg" alt="Chamarra denim azul">
+          <img src="imgs/08995626606-p.jpg" alt="Chamarra denim azul" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -295,9 +316,9 @@
           <a class="product-btn" onclick="agregarCarrito('Chamarra denim azul', 1099, 'imgs/08995626606-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="chamarra militar verde">
         <div class="product-img">
-          <img src="imgs/09022668700-p.jpg" alt="Chamarra militar verde">
+          <img src="imgs/09022668700-p.jpg" alt="Chamarra militar verde" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -312,9 +333,9 @@
     <!-- ZAPATOS Y BOTAS -->
     <div class="cat-section-title" id="zapatos">Zapatos, tenis y botas</div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="botas negras de cuero">
         <div class="product-img">
-          <img src="imgs/11004764040-a4o.jpg" alt="Botas negras de cuero">
+          <img src="imgs/11004764040-a4o.jpg" alt="Botas negras de cuero" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -324,9 +345,9 @@
           <a class="product-btn" onclick="agregarCarrito('Botas negras de cuero', 2499, 'imgs/11004764040-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="botas cowboy negras">
         <div class="product-img">
-          <img src="imgs/12110664040-a4o.jpg" alt="Botas cowboy negras">
+          <img src="imgs/12110664040-a4o.jpg" alt="Botas cowboy negras" onclick="abrirZoom(this)">
           <span class="badge badge--dark">Tendencia</span>
         </div>
         <div class="product-info">
@@ -336,9 +357,9 @@
           <a class="product-btn" onclick="agregarCarrito('Botas cowboy negras', 3499, 'imgs/12110664040-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="tenis amarillo retro">
         <div class="product-img">
-          <img src="imgs/11424764202-a4o.jpg" alt="Tenis amarillo retro">
+          <img src="imgs/11424764202-a4o.jpg" alt="Tenis amarillo retro" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -348,9 +369,9 @@
           <a class="product-btn" onclick="agregarCarrito('Tenis amarillo retro', 1999, 'imgs/11424764202-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="tenis plataforma blancos">
         <div class="product-img">
-          <img src="imgs/11502764001-a4o.jpg" alt="Tenis plataforma blancos">
+          <img src="imgs/11502764001-a4o.jpg" alt="Tenis plataforma blancos" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -360,9 +381,9 @@
           <a class="product-btn" onclick="agregarCarrito('Tenis plataforma blancos', 2299, 'imgs/11502764001-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="zapatillas beige mary jane">
         <div class="product-img">
-          <img src="imgs/11542764107-g.jpg" alt="Zapatillas beige mary jane">
+          <img src="imgs/11542764107-g.jpg" alt="Zapatillas beige mary jane" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -377,9 +398,9 @@
     <!-- ACCESORIOS -->
     <div class="cat-section-title" id="accesorios">Accesorios</div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gorra verde leisure society">
         <div class="product-img">
-          <img src="imgs/00733702527-p.jpg" alt="Gorra verde Leisure Society">
+          <img src="imgs/00733702527-p.jpg" alt="Gorra verde Leisure Society" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -389,9 +410,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gorra verde Leisure Society', 299, 'imgs/00733702527-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gorra beige bicolor">
         <div class="product-img">
-          <img src="imgs/00863668712-a4o.jpg" alt="Gorra beige bicolor">
+          <img src="imgs/00863668712-a4o.jpg" alt="Gorra beige bicolor" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -401,9 +422,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gorra beige bicolor', 299, 'imgs/00863668712-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gorro beanie a rayas">
         <div class="product-img">
-          <img src="imgs/00566196319-p.jpg" alt="Gorro beanie a rayas">
+          <img src="imgs/00566196319-p.jpg" alt="Gorro beanie a rayas" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -413,7 +434,7 @@
           <a class="product-btn" onclick="agregarCarrito('Gorro beanie a rayas', 99, 'imgs/00566196319-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas wrap sin armazón">
         <div class="product-img">
           <img src="imgs/00702668700-p.jpg" alt="Gafas sin armazón wrap">
           <span class="badge">Única</span>
@@ -425,9 +446,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gafas wrap sin armazón', 499, 'imgs/00702668700-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas ovaladas rosadas">
         <div class="product-img">
-          <img src="imgs/00703668902-a4o.jpg" alt="Gafas ovaladas rosadas">
+          <img src="imgs/00703668902-a4o.jpg" alt="Gafas ovaladas rosadas" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -437,9 +458,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gafas ovaladas rosadas', 499, 'imgs/00703668902-a4o.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas tortuga ovaladas">
         <div class="product-img">
-          <img src="imgs/04245023700-p.jpg" alt="Gafas tortuga ovaladas">
+          <img src="imgs/04245023700-p.jpg" alt="Gafas tortuga ovaladas" onclick="abrirZoom(this)">
           <span class="badge badge--dark">Favorita</span>
         </div>
         <div class="product-info">
@@ -449,9 +470,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gafas tortuga ovaladas', 499, 'imgs/04245023700-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas rectangulares rojas">
         <div class="product-img">
-          <img src="imgs/04303023605-p.jpg" alt="Gafas rectangulares rojas">
+          <img src="imgs/04303023605-p.jpg" alt="Gafas rectangulares rojas" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -461,9 +482,9 @@
           <a class="product-btn" onclick="agregarCarrito('Gafas rectangulares rojas', 499, 'imgs/04303023605-p.jpg')">Agregar al carrito</a>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="cinturones con tachuelas">
         <div class="product-img">
-          <img src="imgs/09552362802-a4o.jpg" alt="Cinturones con tachuelas">
+          <img src="imgs/09552362802-a4o.jpg" alt="Cinturones con tachuelas" onclick="abrirZoom(this)">
           <span class="badge">Única</span>
         </div>
         <div class="product-info">
@@ -815,6 +836,16 @@
       </div>
     </div>
 
+  </div>
+
+
+  <!-- ══ ZOOM GALERÍA ══ -->
+  <div class="zoom-overlay" id="zoomOverlay" onclick="cerrarZoom()"></div>
+  <div class="zoom-modal" id="zoomModal">
+    <button class="zoom-close" onclick="cerrarZoom()">✕</button>
+    <img id="zoomImg" src="" alt="">
+    <p id="zoomNombre" class="zoom-nombre"></p>
+    <p id="zoomPrecio" class="zoom-precio"></p>
   </div>
 
   <script src="script.js"></script>

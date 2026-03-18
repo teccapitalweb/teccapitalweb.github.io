@@ -256,3 +256,154 @@ function enviarPedido(e) {
   if (notas) msg += '\n*Notas:* ' + notas;
   window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(msg), '_blank');
 }
+
+// ══════════════════════════════
+//  BÚSQUEDA + FILTROS
+// ══════════════════════════════
+
+var filtroActivo = 'todos';
+
+function setFiltro(btn) {
+  filtroActivo = btn.getAttribute('data-filtro');
+  document.querySelectorAll('.filtro-btn').forEach(function(b) {
+    b.classList.toggle('active', b === btn);
+  });
+  filtrarProductos();
+}
+
+function filtrarProductos() {
+  var query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+  var clearBtn = document.getElementById('searchClear');
+  if (clearBtn) clearBtn.style.display = query ? 'block' : 'none';
+
+  var cards = document.querySelectorAll('.product-card[data-cat]');
+  var visibles = 0;
+
+  cards.forEach(function(card) {
+    var cat = card.getAttribute('data-cat') || '';
+    var nombre = card.getAttribute('data-nombre') || '';
+    var matchCat = filtroActivo === 'todos' || cat === filtroActivo;
+    var matchQuery = !query || nombre.includes(query);
+    var visible = matchCat && matchQuery;
+    card.style.display = visible ? '' : 'none';
+    card.style.opacity = visible ? '1' : '0';
+    if (visible) visibles++;
+  });
+
+  // Ocultar títulos de sección si no hay tarjetas visibles en esa sección
+  document.querySelectorAll('.cat-section-title').forEach(function(title) {
+    var next = title.nextElementSibling;
+    var tieneVisibles = false;
+    if (next) {
+      next.querySelectorAll('.product-card[data-cat]').forEach(function(c) {
+        if (c.style.display !== 'none') tieneVisibles = true;
+      });
+    }
+    title.style.display = tieneVisibles ? '' : 'none';
+  });
+
+  var resEl = document.getElementById('filtroResultado');
+  if (resEl) {
+    if (query || filtroActivo !== 'todos') {
+      resEl.textContent = visibles === 0 ? 'No se encontraron prendas' : visibles + ' prenda' + (visibles === 1 ? '' : 's') + ' encontrada' + (visibles === 1 ? '' : 's');
+    } else {
+      resEl.textContent = '';
+    }
+  }
+}
+
+function limpiarBusqueda() {
+  var input = document.getElementById('searchInput');
+  if (input) { input.value = ''; input.focus(); }
+  filtrarProductos();
+}
+
+// ══════════════════════════════
+//  ZOOM GALERÍA
+// ══════════════════════════════
+
+function abrirZoom(img) {
+  var modal = document.getElementById('zoomModal');
+  var overlay = document.getElementById('zoomOverlay');
+  var zoomImg = document.getElementById('zoomImg');
+  var zoomNombre = document.getElementById('zoomNombre');
+  var zoomPrecio = document.getElementById('zoomPrecio');
+  if (!modal) return;
+
+  var card = img.closest('.product-card');
+  var nombre = card ? card.querySelector('.product-name') : null;
+  var precio = card ? card.querySelector('.product-price') : null;
+
+  zoomImg.src = img.src;
+  zoomImg.alt = img.alt;
+  if (zoomNombre) zoomNombre.textContent = nombre ? nombre.textContent : '';
+  if (zoomPrecio) zoomPrecio.textContent = precio ? precio.textContent : '';
+
+  overlay.classList.add('open');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarZoom() {
+  var modal = document.getElementById('zoomModal');
+  var overlay = document.getElementById('zoomOverlay');
+  if (modal) modal.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Cerrar zoom con ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    cerrarZoom();
+    cerrarCheckout();
+    cerrarCarrito();
+  }
+});
+
+// ══════════════════════════════
+//  ANIMACIONES MEJORADAS SCROLL
+// ══════════════════════════════
+
+// Stagger animation para product cards en grupos
+var staggerObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var siblings = entry.target.parentElement.querySelectorAll('.product-card');
+      siblings.forEach(function(card, i) {
+        setTimeout(function() {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, i * 80);
+      });
+      staggerObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.product-grid').forEach(function(grid) {
+  var first = grid.querySelector('.product-card');
+  if (first) {
+    grid.querySelectorAll('.product-card').forEach(function(card) {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(28px)';
+      card.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+    });
+    staggerObserver.observe(first);
+  }
+});
+
+// Animación para secciones completas
+var sectionObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      sectionObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.cat-item, .step, .pago-card, .prop-item').forEach(function(el) {
+  el.classList.add('anim-ready');
+  sectionObserver.observe(el);
+});

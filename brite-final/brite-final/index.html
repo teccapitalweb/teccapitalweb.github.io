@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRITE — Bazar de Ropa de Segunda Mano</title>
+  <meta name="description" content="BRITE — Bazar de ropa de segunda mano. Prendas seleccionadas, únicas y a buen precio. Envíos a todo México.">
+  <meta property="og:title" content="BRITE — Bazar de Ropa">
+  <meta property="og:description" content="Prendas de segunda mano seleccionadas. Cada pieza es única.">
+  <meta property="og:image" content="imgs/logo.jpg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="imgs/apple-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <!-- ══ NAV ══ -->
+  <header id="header">
+    <nav class="nav-inner">
+      <div class="nav-left">
+        <button class="nav-menu-btn" onclick="toggleMenu()" aria-label="Menú">
+          <span></span><span></span>
+        </button>
+      </div>
+      <a class="nav-brand" href="#"><img src="imgs/logo-simple.jpg" alt="BRITE" class="nav-logo-img"></a>
+      <div class="nav-right">
+        <div id="carritoIcon" class="carrito-icon" onclick="abrirCarrito()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span id="carritoCount" class="carrito-count">0</span>
+        </div>
+        <a class="nav-wa" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20quiero%20ver%20el%20catálogo" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span class="nav-wa-text">WhatsApp</span>
+        </a>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#novedades" onclick="toggleMenu()">Novedades</a>
+      <a href="#categorias" onclick="toggleMenu()">Categorías</a>
+      <a href="#catalogo" onclick="toggleMenu()">Catálogo</a>
+      <a href="#sobre" onclick="toggleMenu()">Sobre BRITE</a>
+      <a href="#pedido" onclick="toggleMenu()">Hacer pedido</a>
+      <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero" id="inicio" style="--hero-bg: url(imgs/M_slide_woman_dresses_-1.jpg)">
+    <div class="hero-content">
+      <span class="hero-tag">Nueva temporada · Bazar en línea</span>
+      <h1 class="hero-title">Segunda mano,<br><em>primer amor.</em></h1>
+      <p class="hero-desc">Prendas seleccionadas con cuidado. Cada pieza es única — encuéntrala antes que alguien más.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20quiero%20ver%20las%20prendas%20disponibles" target="_blank">Ver catálogo</a>
+        <a class="btn-ghost" href="#catalogo">Explorar</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card hc1">
+        <img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestido de rayas" onclick="abrirZoom(this)">
+        <p class="hc-label">Vestido · Disponible</p>
+      </div>
+      <div class="hero-card hc2">
+        <img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Jeans wide leg" onclick="abrirZoom(this)">
+        <p class="hc-label">Jeans · Disponible</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TICKER ══ -->
+  <section class="ticker-wrap" id="novedades">
+    <div class="ticker">
+      <span>NOVEDADES · SEGUNDA MANO · PIEZAS ÚNICAS · MODA CONSCIENTE · PRECIOS ACCESIBLES · BRITE BAZAR · </span>
+      <span>NOVEDADES · SEGUNDA MANO · PIEZAS ÚNICAS · MODA CONSCIENTE · PRECIOS ACCESIBLES · BRITE BAZAR · </span>
+    </div>
+  </section>
+
+  <!-- ══ CATEGORÍAS ══ -->
+  <section class="categorias" id="categorias">
+    <div class="section-head">
+      <p class="section-tag">Explorar por</p>
+      <h2>Categorías</h2>
+    </div>
+    <div class="cat-grid">
+      <a class="cat-item" href="#vestidos">
+        <div class="cat-img"><img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestidos"></div>
+        <div class="cat-info"><h3>Vestidos</h3><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat-item" href="#blusas">
+        <div class="cat-img"><img src="imgs/01097741505-p.jpg" alt="Blusas y tops"></div>
+        <div class="cat-info"><h3>Blusas y tops</h3><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat-item" href="#pantalones">
+        <div class="cat-img"><img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Pantalones"></div>
+        <div class="cat-info"><h3>Pantalones</h3><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat-item" href="#chamarras">
+        <div class="cat-img"><img src="imgs/01142200830-p.jpg" alt="Abrigos"></div>
+        <div class="cat-info"><h3>Abrigos y chamarras</h3><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat-item" href="#zapatos">
+        <div class="cat-img"><img src="imgs/11004764040-a4o.jpg" alt="Zapatos"></div>
+        <div class="cat-info"><h3>Zapatos y botas</h3><span class="cat-arrow">→</span></div>
+      </a>
+      <a class="cat-item" href="#accesorios">
+        <div class="cat-img"><img src="imgs/00733702527-p.jpg" alt="Accesorios"></div>
+        <div class="cat-info"><h3>Accesorios</h3><span class="cat-arrow">→</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ CATÁLOGO ══ -->
+  <section class="catalogo" id="catalogo">
+    <div class="section-head">
+      <p class="section-tag">Disponibles ahora</p>
+      <h2>Catálogo</h2>
+    </div>
+
+    <!-- ══ BARRA BÚSQUEDA + FILTROS ══ -->
+    <div class="barra-busqueda">
+      <div class="busqueda-input-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar prenda..." oninput="filtrarProductos()">
+        <button class="busqueda-clear" id="searchClear" onclick="limpiarBusqueda()" style="display:none">✕</button>
+      </div>
+      <div class="filtros-wrap">
+        <button class="filtro-btn active" data-filtro="todos" onclick="setFiltro(this)">Todos</button>
+        <button class="filtro-btn" data-filtro="vestidos" onclick="setFiltro(this)">Vestidos</button>
+        <button class="filtro-btn" data-filtro="blusas" onclick="setFiltro(this)">Blusas</button>
+        <button class="filtro-btn" data-filtro="pantalones" onclick="setFiltro(this)">Pantalones</button>
+        <button class="filtro-btn" data-filtro="abrigos" onclick="setFiltro(this)">Abrigos</button>
+        <button class="filtro-btn" data-filtro="zapatos" onclick="setFiltro(this)">Zapatos</button>
+        <button class="filtro-btn" data-filtro="accesorios" onclick="setFiltro(this)">Accesorios</button>
+      </div>
+      <p class="filtro-resultado" id="filtroResultado"></p>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-state-icon">✦</div>
+      <h4>Sin resultados</h4>
+      <p>No encontramos prendas con esa búsqueda.</p>
+      <button class="btn-primary" onclick="limpiarBusqueda(); setFiltro(document.querySelector('.filtro-btn'))">Ver todo el catálogo</button>
+    </div>
+
+    <!-- VESTIDOS -->
+    <div class="cat-section-title" id="vestidos">Vestidos</div>
+    <div class="product-grid">
+      <div class="product-card reveal" data-cat="vestidos" data-nombre="vestido de rayas halter">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/M_slide_woman_dresses_-1.jpg" alt="Vestido de rayas" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Vestido de rayas halter</p>
+          <p class="product-cat">Vestido · Talla S/M</p>
+          <p class="product-price">$349 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Vestido de rayas halter', 349, 'imgs/M_slide_woman_dresses_-1.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="vestidos" data-nombre="conjunto cuadros azul">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/01159741407-p.jpg" alt="Vestido cuadros azul" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Conjunto cuadros azul</p>
+          <p class="product-cat">Vestido · Talla M</p>
+          <p class="product-price">$329 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Conjunto cuadros azul', 329, 'imgs/01159741407-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="vestidos" data-nombre="conjunto cuadros verde">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/01159741711-p.jpg" alt="Conjunto cuadros verde" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Conjunto cuadros verde</p>
+          <p class="product-cat">Vestido · Talla S</p>
+          <p class="product-price">$349 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Conjunto cuadros verde', 349, 'imgs/01159741711-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLUSAS Y TOPS -->
+    <div class="cat-section-title" id="blusas">Blusas y tops</div>
+    <div class="product-grid">
+      <div class="product-card reveal" data-cat="blusas" data-nombre="top corsé de tirantes">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/01097741505-p.jpg" alt="Top de tirantes con pantalón" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Top corsé de tirantes</p>
+          <p class="product-cat">Blusa · Talla S</p>
+          <p class="product-price">$299 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Top corsé de tirantes', 299, 'imgs/01097741505-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal product-card--wide">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/05111190812-p1.jpg" alt="Hoodie gris oversize" onclick="abrirZoom(this)">
+          <span class="badge badge--dark">Nueva llegada</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Hoodie gris oversize</p>
+          <p class="product-cat">Chamarra / top · Talla M/L</p>
+          <p class="product-price">$349 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Hoodie gris oversize', 349, 'imgs/05111190812-p1.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANTALONES -->
+    <div class="cat-section-title" id="pantalones">Pantalones</div>
+    <div class="product-grid">
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="jeans wide leg azul claro">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/M_slide_woman_jeans_-1.jpg" alt="Jeans wide leg" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Jeans wide leg azul claro</p>
+          <p class="product-cat">Pantalón · Talla 28</p>
+          <p class="product-price">$599 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Jeans wide leg azul claro', 599, 'imgs/M_slide_woman_jeans_-1.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="pantalón cuadros con lazo">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/01209172700-a4o.jpg" alt="Pantalón cuadros café" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Pantalón cuadros con lazo</p>
+          <p class="product-cat">Pantalón · Talla M</p>
+          <p class="product-price">$699 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Pantalón cuadros con lazo', 699, 'imgs/01209172700-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="pantalón negro acampanado">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/05112741800-a4o.jpg" alt="Pantalón negro acampanado" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Pantalón negro acampanado</p>
+          <p class="product-cat">Pantalón · Talla S/M</p>
+          <p class="product-price">$499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Pantalón negro acampanado', 499, 'imgs/05112741800-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="pantalones" data-nombre="pantalón animal print">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/08990184800-p.jpg" alt="Pantalón animal print" onclick="abrirZoom(this)">
+          <span class="badge badge--trend">Tendencia</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Pantalón animal print</p>
+          <p class="product-cat">Pantalón · Talla M</p>
+          <p class="product-price">$799 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Pantalón animal print', 799, 'imgs/08990184800-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABRIGOS Y CHAMARRAS -->
+    <div class="cat-section-title" id="chamarras">Abrigos y chamarras</div>
+    <div class="product-grid">
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="gabardina gamuza café">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/01142200830-p.jpg" alt="Gabardina café ante" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gabardina gamuza café</p>
+          <p class="product-cat">Abrigo · Talla M/L</p>
+          <p class="product-price">$1,299 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gabardina gamuza café', 1299, 'imgs/01142200830-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="abrigo largo beige">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/01688006774-p.jpg" alt="Abrigo beige largo" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Abrigo largo beige</p>
+          <p class="product-cat">Abrigo · Talla M</p>
+          <p class="product-price">$1,499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Abrigo largo beige', 1499, 'imgs/01688006774-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="chamarra peluche café">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/06637407830-p.jpg" alt="Chamarra peluche café" onclick="abrirZoom(this)">
+          <span class="badge badge--gold">Favorita</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Chamarra peluche café</p>
+          <p class="product-cat">Chamarra · Talla M</p>
+          <p class="product-price">$1,599 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Chamarra peluche café', 1599, 'imgs/06637407830-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="abrigo negro oversized">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/06891200800-p.jpg" alt="Abrigo negro oversized" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Abrigo negro oversized</p>
+          <p class="product-cat">Abrigo · Talla S/M</p>
+          <p class="product-price">$999 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Abrigo negro oversized', 999, 'imgs/06891200800-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="chamarra denim azul">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/08995626606-p.jpg" alt="Chamarra denim azul" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Chamarra denim azul</p>
+          <p class="product-cat">Chamarra · Talla S</p>
+          <p class="product-price">$1,099 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Chamarra denim azul', 1099, 'imgs/08995626606-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="abrigos" data-nombre="chamarra militar verde">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/09022668700-p.jpg" alt="Chamarra militar verde" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Chamarra militar verde</p>
+          <p class="product-cat">Chamarra · Talla M</p>
+          <p class="product-price">$1,199 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Chamarra militar verde', 1199, 'imgs/09022668700-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAPATOS Y BOTAS -->
+    <div class="cat-section-title" id="zapatos">Zapatos, tenis y botas</div>
+    <div class="product-grid">
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="botas negras de cuero">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/11004764040-a4o.jpg" alt="Botas negras de cuero" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Botas negras de cuero</p>
+          <p class="product-cat">Botas · Talla 25</p>
+          <p class="product-price">$2,499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Botas negras de cuero', 2499, 'imgs/11004764040-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="botas cowboy negras">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/12110664040-a4o.jpg" alt="Botas cowboy negras" onclick="abrirZoom(this)">
+          <span class="badge badge--trend">Tendencia</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Botas cowboy negras</p>
+          <p class="product-cat">Botas · Talla 24</p>
+          <p class="product-price">$3,499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Botas cowboy negras', 3499, 'imgs/12110664040-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="tenis amarillo retro">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/11424764202-a4o.jpg" alt="Tenis amarillo retro" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Tenis amarillo retro</p>
+          <p class="product-cat">Tenis · Talla 25</p>
+          <p class="product-price">$1,999 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Tenis amarillo retro', 1999, 'imgs/11424764202-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="tenis plataforma blancos">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/11502764001-a4o.jpg" alt="Tenis plataforma blancos" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Tenis plataforma blancos</p>
+          <p class="product-cat">Tenis · Talla 24</p>
+          <p class="product-price">$2,299 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Tenis plataforma blancos', 2299, 'imgs/11502764001-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="zapatos" data-nombre="zapatillas beige mary jane">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/11542764107-g.jpg" alt="Zapatillas beige mary jane" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Zapatillas beige mary jane</p>
+          <p class="product-cat">Zapatillas · Talla 25</p>
+          <p class="product-price">$2,199 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Zapatillas beige mary jane', 2199, 'imgs/11542764107-g.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESORIOS -->
+    <div class="cat-section-title" id="accesorios">Accesorios</div>
+    <div class="product-grid">
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gorra verde leisure society">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/00733702527-p.jpg" alt="Gorra verde Leisure Society" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gorra verde Leisure Society</p>
+          <p class="product-cat">Gorra · Talla única</p>
+          <p class="product-price">$299 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gorra verde Leisure Society', 299, 'imgs/00733702527-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gorra beige bicolor">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/00863668712-a4o.jpg" alt="Gorra beige bicolor" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gorra beige bicolor</p>
+          <p class="product-cat">Gorra · Talla única</p>
+          <p class="product-price">$299 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gorra beige bicolor', 299, 'imgs/00863668712-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gorro beanie a rayas">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/00566196319-p.jpg" alt="Gorro beanie a rayas" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gorro beanie a rayas</p>
+          <p class="product-cat">Gorro / Diadema · Talla única</p>
+          <p class="product-price">$99 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gorro beanie a rayas', 99, 'imgs/00566196319-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas wrap sin armazón">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/00702668700-p.jpg" alt="Gafas sin armazón wrap">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gafas wrap sin armazón</p>
+          <p class="product-cat">Gafas · Talla única</p>
+          <p class="product-price">$499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gafas wrap sin armazón', 499, 'imgs/00702668700-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas ovaladas rosadas">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/00703668902-a4o.jpg" alt="Gafas ovaladas rosadas" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gafas ovaladas rosadas</p>
+          <p class="product-cat">Gafas · Talla única</p>
+          <p class="product-price">$499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gafas ovaladas rosadas', 499, 'imgs/00703668902-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas tortuga ovaladas">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/04245023700-p.jpg" alt="Gafas tortuga ovaladas" onclick="abrirZoom(this)">
+          <span class="badge badge--gold">Favorita</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gafas tortuga ovaladas</p>
+          <p class="product-cat">Gafas · Talla única</p>
+          <p class="product-price">$499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gafas tortuga ovaladas', 499, 'imgs/04245023700-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="gafas rectangulares rojas">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/04303023605-p.jpg" alt="Gafas rectangulares rojas" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Gafas rectangulares rojas</p>
+          <p class="product-cat">Gafas · Talla única</p>
+          <p class="product-price">$499 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Gafas rectangulares rojas', 499, 'imgs/04303023605-p.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+      <div class="product-card reveal" data-cat="accesorios" data-nombre="cinturones con tachuelas">
+        <div class="product-hover-overlay"></div>
+        <div class="product-img">
+          <img src="imgs/09552362802-a4o.jpg" alt="Cinturones con tachuelas" onclick="abrirZoom(this)">
+          <span class="badge">Única</span>
+        </div>
+        <div class="product-info">
+          <p class="product-name">Cinturones con tachuelas</p>
+          <p class="product-cat">Accesorios · Pack 2 piezas</p>
+          <p class="product-price">$99 MXN</p>
+          <a class="product-btn" onclick="agregarCarrito('Cinturones con tachuelas', 99, 'imgs/09552362802-a4o.jpg')">Agregar al carrito</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="catalogo-cta">
+      <p>¿No encontraste lo que buscas? Escríbenos — tenemos más piezas disponibles.</p>
+      <a class="btn-primary" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20busco%20una%20prenda%20específica%2C%20¿tienen%20disponible%3F" target="_blank">Preguntar por WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- ══ CÓMO FUNCIONA ══ -->
+  <section class="como">
+    <div class="section-head">
+      <p class="section-tag">Simple y directo</p>
+      <h2>¿Cómo comprar?</h2>
+    </div>
+    <div class="como-steps">
+      <div class="step reveal">
+        <span class="step-num">01</span>
+        <h3>Escríbenos</h3>
+        <p>Mándanos un WhatsApp diciendo qué pieza te interesa o que quieres ver el catálogo completo.</p>
+      </div>
+      <div class="step-line"></div>
+      <div class="step reveal">
+        <span class="step-num">02</span>
+        <h3>Te mostramos</h3>
+        <p>Te enviamos más fotos de la pieza disponible ese día. Todo cambia — ¡actúa rápido!</p>
+      </div>
+      <div class="step-line"></div>
+      <div class="step reveal">
+        <span class="step-num">03</span>
+        <h3>Coordinamos</h3>
+        <p>Acordamos precio, forma de pago y entrega. Trato directo, sin complicaciones.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACTO ══ -->
+  <section class="contacto" id="contacto">
+    <div class="contacto-inner">
+      <div class="contacto-text">
+        <p class="section-tag">Atención directa</p>
+        <h2>Hablemos</h2>
+        <p class="contacto-desc">Respondemos rápido. Escríbenos por WhatsApp para ver disponibilidad, precios y coordinar tu compra.</p>
+        <div class="contacto-dato">
+          <span class="dato-label">WhatsApp</span>
+          <span class="dato-val">+52 1 238 116 0056</span>
+        </div>
+        <div class="contacto-dato">
+          <span class="dato-label">Horario</span>
+          <span class="dato-val">Lunes a sábado · 9am – 8pm</span>
+        </div>
+        <div class="contacto-dato">
+          <span class="dato-label">Modalidad</span>
+          <span class="dato-val">Bazar en línea · Envíos y entrega</span>
+        </div>
+      </div>
+      <div class="contacto-action">
+        <div class="wa-card">
+          <div class="wa-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <p class="wa-title">Escríbenos ahora</p>
+          <p class="wa-sub">Te respondemos en minutos</p>
+          <a class="btn-wa" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20quiero%20ver%20el%20catálogo" target="_blank">Abrir WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SOBRE BRITE ══ -->
+  <section class="sobre" id="sobre">
+    <div class="sobre-inner">
+      <div class="sobre-img-wrap">
+        <img src="imgs/sobre-brite.jpg" alt="Quien maneja BRITE" class="sobre-foto">
+        <div class="sobre-ig">
+          <a href="https://www.instagram.com/britemx" target="_blank" class="sobre-ig-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @britemx
+          </a>
+        </div>
+      </div>
+      <div class="sobre-texto">
+        <p class="section-tag">La persona detrás de BRITE</p>
+        <h2>Sobre nosotras</h2>
+        <p class="sobre-desc">BRITE nació de la creencia de que la moda no tiene que costar una fortuna para verse increíble. Somos un bazar en línea que selecciona prendas de segunda mano con criterio, cuidado y ojo para el estilo.</p>
+        <p class="sobre-desc">Cada pieza que llega a BRITE pasa por un proceso de selección — buscamos calidad, buen estado y ese algo especial que hace que una prenda valga la pena. No vendemos ropa, curamos guardarropas.</p>
+        <div class="sobre-valores">
+          <div class="sobre-valor">
+            <span class="valor-icon">✦</span>
+            <div>
+              <p class="valor-titulo">Moda consciente</p>
+              <p class="valor-desc">Darle una segunda vida a la ropa es bueno para ti y para el planeta.</p>
+            </div>
+          </div>
+          <div class="sobre-valor">
+            <span class="valor-icon">✦</span>
+            <div>
+              <p class="valor-titulo">Piezas curadas</p>
+              <p class="valor-desc">Seleccionamos cada prenda a mano. Si no nos convence, no llega al catálogo.</p>
+            </div>
+          </div>
+          <div class="sobre-valor">
+            <span class="valor-icon">✦</span>
+            <div>
+              <p class="valor-titulo">Trato directo</p>
+              <p class="valor-desc">Hablamos contigo de persona a persona, sin robots ni respuestas automáticas.</p>
+            </div>
+          </div>
+        </div>
+        <a class="btn-primary" href="https://www.instagram.com/britemx" target="_blank">Síguenos en Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FORMULARIO DE PEDIDO ══ -->
+  <section class="formulario" id="pedido">
+    <div class="formulario-inner">
+      <div class="form-texto">
+        <p class="section-tag">Sin complicaciones</p>
+        <h2>Hacer un pedido</h2>
+        <p class="form-desc">Llena el formulario con tus datos y la prenda que quieres. Te contactamos por WhatsApp para confirmar disponibilidad y enviarte los datos bancarios para tu transferencia.</p>
+        <div class="form-pasos">
+          <div class="form-paso">
+            <span class="paso-num">1</span>
+            <span>Llena el formulario</span>
+          </div>
+          <div class="form-paso">
+            <span class="paso-num">2</span>
+            <span>Te enviamos datos de transferencia</span>
+          </div>
+          <div class="form-paso">
+            <span class="paso-num">3</span>
+            <span>Confirmas pago y enviamos tu pedido</span>
+          </div>
+        </div>
+        <div class="form-banco">
+          <p class="banco-label">Datos bancarios</p>
+          <p class="banco-info">Banco: <strong>BBVA / SPEI</strong></p>
+          <p class="banco-info">Titular: <strong>BRITE</strong></p>
+          <p class="banco-info">CLABE: <strong>— Te la enviamos por WhatsApp —</strong></p>
+        </div>
+      </div>
+      <div class="form-box">
+        <form id="pedidoForm" onsubmit="enviarPedido(event)">
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Tu nombre completo" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono">WhatsApp / Teléfono</label>
+              <input type="tel" id="telefono" placeholder="10 dígitos" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" placeholder="tu@correo.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="prenda">Prenda que deseas</label>
+            <input type="text" id="prenda" placeholder="Ej: Botas cowboy negras, Talla 24" required>
+          </div>
+          <div class="form-group">
+            <label for="direccion">Dirección de envío</label>
+            <input type="text" id="direccion" placeholder="Calle, número, colonia" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ciudad">Ciudad / Municipio</label>
+              <input type="text" id="ciudad" placeholder="Ciudad" required>
+            </div>
+            <div class="form-group">
+              <label for="estado">Estado</label>
+              <input type="text" id="estado" placeholder="Estado" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cp">Código postal</label>
+            <input type="text" id="cp" placeholder="CP" required>
+          </div>
+          <div class="form-group">
+            <label for="notas">Notas adicionales (opcional)</label>
+            <textarea id="notas" rows="3" placeholder="¿Alguna pregunta o comentario?"></textarea>
+          </div>
+          <button type="submit" class="btn-form">Enviar pedido por WhatsApp</button>
+          <p class="form-aviso">Al enviar, serás redirigida a WhatsApp con tu pedido listo. Nosotros confirmamos disponibilidad y te enviamos los datos de pago.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PAGO Y ENVÍO ══ -->
+  <section class="pago-envio">
+    <div class="section-head centered">
+      <p class="section-tag">Todo claro desde el inicio</p>
+      <h2>Pago y envío</h2>
+    </div>
+    <div class="pago-grid">
+
+      <div class="pago-card reveal">
+        <div class="pago-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <h3>Transferencia / SPEI</h3>
+        <p>Realizamos el apartado de tu pieza una vez confirmado el pago. Te enviamos los datos bancarios por WhatsApp.</p>
+        <span class="pago-tag">Pago 100% seguro</span>
+      </div>
+
+      <div class="pago-card reveal">
+        <div class="pago-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <h3>Envíos a todo México</h3>
+        <p>Enviamos por paquetería a cualquier estado de la república. El costo de envío se calcula según tu ubicación.</p>
+        <span class="pago-tag">Entrega en 2–5 días hábiles</span>
+      </div>
+
+      <div class="pago-card reveal">
+        <div class="pago-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3>Compra protegida</h3>
+        <p>Enviamos foto y video de la prenda antes de empacar. Tu pedido sale con guía de rastreo para que lo sigas en tiempo real.</p>
+        <span class="pago-tag">Guía de rastreo incluida</span>
+      </div>
+
+    </div>
+
+    <div class="pago-aviso">
+      <p>¿Tienes dudas sobre el proceso de compra? <a href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20tengo%20una%20duda%20sobre%20el%20proceso%20de%20compra" target="_blank">Escríbenos por WhatsApp</a> y te explicamos todo.</p>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="imgs/logo-simple.jpg" alt="BRITE" class="footer-logo-img">
+        <p class="footer-slogan">Bazar de ropa de segunda mano</p>
+      </div>
+      <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#sobre">Sobre BRITE</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-contact">
+        <p>+52 1 238 116 0056</p>
+        <a href="https://wa.me/5212381160056" target="_blank">WhatsApp</a>
+        <a href="https://www.instagram.com/britemx" target="_blank" class="footer-ig">Instagram @britemx</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 BRITE — Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- WA flotante -->
+  <a class="wa-float" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20quiero%20ver%20el%20catálogo" target="_blank" aria-label="WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ══ PANEL CARRITO ══ -->
+  <div class="carrito-overlay" id="carritoOverlay" onclick="cerrarCarrito()"></div>
+  <div class="carrito-panel" id="carritoPanel">
+    <div class="carrito-header">
+      <h3>Tu carrito</h3>
+      <button onclick="cerrarCarrito()" class="carrito-close">✕</button>
+    </div>
+    <div class="carrito-items" id="carritoItems">
+      <p class="carrito-vacio">Tu carrito está vacío</p>
+    </div>
+    <div class="carrito-footer" id="carritoFooter" style="display:none">
+      <div class="carrito-total-row">
+        <span>Subtotal</span>
+        <span id="carritoSubtotal">$0</span>
+      </div>
+      <p class="carrito-envio-msg" id="carritoEnvioMsg"></p>
+      <button class="btn-checkout" onclick="iniciarCheckout()">Proceder al pago →</button>
+    </div>
+  </div>
+
+  <!-- ══ MODAL CHECKOUT ══ -->
+  <div class="checkout-overlay" id="checkoutOverlay"></div>
+  <div class="checkout-modal" id="checkoutModal">
+
+    <!-- Pasos indicador -->
+    <div class="checkout-steps">
+      <div class="ch-step active" id="step-ind-1"><span>1</span> Mis datos</div>
+      <div class="ch-step-line"></div>
+      <div class="ch-step" id="step-ind-2"><span>2</span> Resumen</div>
+      <div class="ch-step-line"></div>
+      <div class="ch-step" id="step-ind-3"><span>3</span> Pago</div>
+    </div>
+
+    <!-- PASO 1: Datos de envío -->
+    <div class="checkout-step" id="checkout-paso1">
+      <h3>¿A dónde enviamos tu pedido?</h3>
+      <div class="ch-form">
+        <div class="ch-group">
+          <label>Nombre completo</label>
+          <input type="text" id="ch-nombre" placeholder="Tu nombre completo">
+        </div>
+        <div class="ch-row">
+          <div class="ch-group">
+            <label>WhatsApp</label>
+            <input type="tel" id="ch-tel" placeholder="10 dígitos">
+          </div>
+          <div class="ch-group">
+            <label>Email (opcional)</label>
+            <input type="email" id="ch-email" placeholder="tu@correo.com">
+          </div>
+        </div>
+        <div class="ch-group">
+          <label>Calle y número</label>
+          <input type="text" id="ch-calle" placeholder="Ej: Av. Juárez 123, Col. Centro">
+        </div>
+        <div class="ch-row">
+          <div class="ch-group">
+            <label>Ciudad / Municipio</label>
+            <input type="text" id="ch-ciudad" placeholder="Ciudad">
+          </div>
+          <div class="ch-group">
+            <label>Estado</label>
+            <input type="text" id="ch-estado" placeholder="Estado">
+          </div>
+        </div>
+        <div class="ch-group">
+          <label>Código postal</label>
+          <input type="text" id="ch-cp" placeholder="CP">
+        </div>
+      </div>
+      <div class="ch-actions">
+        <button class="btn-ch-ghost" onclick="cerrarCheckout()">Cancelar</button>
+        <button class="btn-ch-primary" onclick="irPaso2()">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- PASO 2: Resumen -->
+    <div class="checkout-step" id="checkout-paso2" style="display:none">
+      <h3>Resumen de tu pedido</h3>
+      <div id="ch-resumen-items" class="ch-resumen-items"></div>
+      <div class="ch-resumen-totales">
+        <div class="ch-total-row">
+          <span>Subtotal</span>
+          <span id="ch-res-subtotal"></span>
+        </div>
+        <div class="ch-total-row" id="ch-envio-row">
+          <span>Envío</span>
+          <span id="ch-res-envio"></span>
+        </div>
+        <div class="ch-total-row ch-total-final">
+          <span>Total</span>
+          <span id="ch-res-total"></span>
+        </div>
+      </div>
+      <div class="ch-envio-info" id="ch-envio-info"></div>
+      <div class="ch-actions">
+        <button class="btn-ch-ghost" onclick="irPaso1()">← Atrás</button>
+        <button class="btn-ch-primary" onclick="irPaso3()">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3: Pago -->
+    <div class="checkout-step" id="checkout-paso3" style="display:none">
+      <h3>Método de pago</h3>
+      <div class="ch-pago-card">
+        <div class="ch-pago-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <div>
+          <p class="ch-pago-nombre">Transferencia SPEI</p>
+          <p class="ch-pago-desc">Sin comisiones · Cualquier banco mexicano</p>
+        </div>
+        <div class="ch-pago-check">✓</div>
+      </div>
+      <div class="ch-banco-datos">
+        <p class="ch-banco-title">Datos para tu transferencia</p>
+        <p>Banco: <strong>BBVA</strong></p>
+        <p>Titular: <strong>BRITE</strong></p>
+        <p>CLABE: <strong>Te la enviamos por WhatsApp al confirmar</strong></p>
+      </div>
+      <p class="ch-pago-nota">Al confirmar tu pedido recibirás un mensaje de WhatsApp con la CLABE para realizar tu transferencia. Una vez que nos envíes tu comprobante, procesamos y enviamos tu pedido.</p>
+      <div class="ch-actions">
+        <button class="btn-ch-ghost" onclick="irPaso2()">← Atrás</button>
+        <button class="btn-ch-primary btn-confirmar" onclick="confirmarPedido()">✓ Confirmar pedido</button>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ ZOOM GALERÍA ══ -->
+  <div class="zoom-overlay" id="zoomOverlay" onclick="cerrarZoom()"></div>
+  <div class="zoom-modal" id="zoomModal">
+    <button class="zoom-close" onclick="cerrarZoom()">✕</button>
+    <img id="zoomImg" src="" alt="">
+    <p id="zoomNombre" class="zoom-nombre"></p>
+    <p id="zoomPrecio" class="zoom-precio"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

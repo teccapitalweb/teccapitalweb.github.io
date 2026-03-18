@@ -461,6 +461,72 @@ footer {
   margin-bottom: 24px;
 }
 
+/* ══ PAGO Y ENVÍO ══ */
+.pago-envio {
+  padding: 96px 64px;
+  background: var(--ink);
+}
+.pago-envio .section-head.centered { text-align: center; }
+.pago-envio .section-tag { color: var(--taupe); }
+.pago-envio h2 {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 300; color: var(--white);
+}
+.pago-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px; margin-top: 56px;
+}
+.pago-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 44px 36px;
+  transition: background .2s;
+}
+.pago-card:hover { background: rgba(255,255,255,0.09); }
+.pago-icon {
+  color: var(--taupe);
+  margin-bottom: 20px;
+}
+.pago-card h3 {
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 400;
+  color: var(--white); margin-bottom: 12px;
+}
+.pago-card p {
+  font-size: 14px; color: var(--taupe);
+  line-height: 1.75; margin-bottom: 20px;
+}
+.pago-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 5px 12px;
+}
+.pago-aviso {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 14px; color: var(--taupe);
+}
+.pago-aviso a {
+  color: var(--white);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding-bottom: 1px;
+  transition: border-color .2s;
+}
+.pago-aviso a:hover { border-color: var(--white); }
+
+@media (max-width: 900px) {
+  .pago-grid { grid-template-columns: 1fr; }
+  .pago-envio { padding-left: 32px; padding-right: 32px; }
+}
+@media (max-width: 640px) {
+  .pago-envio { padding-left: 20px; padding-right: 20px; }
+}
+
 /* ══ HERO IMG FIT ══ */
 .hero-card img {
   width: 100%;
@@ -495,4 +561,137 @@ footer {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* ══ FORMULARIO DE PEDIDO ══ */
+.formulario {
+  padding: 96px 64px;
+  background: var(--off-white);
+}
+.formulario-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+.form-texto h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.form-desc {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.form-pasos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+.form-paso {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--ink-mid);
+}
+.paso-num {
+  width: 28px; height: 28px;
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500;
+  flex-shrink: 0;
+}
+.form-banco {
+  background: var(--cream);
+  padding: 24px 28px;
+  border-left: 3px solid var(--accent);
+}
+.banco-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 12px;
+}
+.banco-info {
+  font-size: 14px; color: var(--ink-mid);
+  margin-bottom: 6px;
+}
+.banco-info strong { color: var(--ink); }
+
+/* Form box */
+.form-box {
+  background: var(--white);
+  padding: 48px 44px;
+  border: 1px solid var(--taupe-light);
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-group label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 7px;
+}
+.form-group input,
+.form-group textarea {
+  font-family: var(--font-body);
+  font-size: 15px; color: var(--ink);
+  background: var(--off-white);
+  border: 1px solid var(--taupe-light);
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color .2s;
+  resize: none;
+  -webkit-appearance: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--ink);
+  background: var(--white);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--taupe); }
+.btn-form {
+  width: 100%;
+  padding: 15px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  transition: background .2s;
+  margin-top: 8px;
+}
+.btn-form:hover { background: #333; }
+.form-aviso {
+  font-size: 12px; color: var(--ink-soft);
+  text-align: center; margin-top: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .formulario-inner { grid-template-columns: 1fr; gap: 40px; }
+  .formulario { padding-left: 32px; padding-right: 32px; }
+}
+@media (max-width: 640px) {
+  .formulario { padding-left: 20px; padding-right: 20px; }
+  .form-box { padding: 28px 20px; }
+  .form-row { grid-template-columns: 1fr; }
 }

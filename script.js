@@ -39,3 +39,30 @@ document.querySelectorAll('.step, .cat-item, .product-card, .prop-item').forEach
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(el);
 });
+
+// ══ Formulario de pedido → WhatsApp ══
+function enviarPedido(e) {
+  e.preventDefault();
+  var nombre    = document.getElementById('nombre').value;
+  var telefono  = document.getElementById('telefono').value;
+  var email     = document.getElementById('email').value;
+  var prenda    = document.getElementById('prenda').value;
+  var direccion = document.getElementById('direccion').value;
+  var ciudad    = document.getElementById('ciudad').value;
+  var estado    = document.getElementById('estado').value;
+  var cp        = document.getElementById('cp').value;
+  var notas     = document.getElementById('notas').value;
+
+  var msg = '🛍 *Nuevo pedido BRITE*\n\n'
+    + '*Nombre:* ' + nombre + '\n'
+    + '*WhatsApp/Tel:* ' + telefono + '\n'
+    + (email ? '*Email:* ' + email + '\n' : '')
+    + '\n*Prenda deseada:* ' + prenda + '\n'
+    + '\n📦 *Datos de envío:*\n'
+    + direccion + '\n'
+    + ciudad + ', ' + estado + ' CP ' + cp + '\n'
+    + (notas ? '\n*Notas:* ' + notas : '');
+
+  var url = 'https://wa.me/5212381160056?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+}

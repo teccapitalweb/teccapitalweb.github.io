@@ -26,6 +26,7 @@
       <a href="#novedades" onclick="toggleMenu()">Novedades</a>
       <a href="#categorias" onclick="toggleMenu()">Categorías</a>
       <a href="#catalogo" onclick="toggleMenu()">Catálogo</a>
+      <a href="#pedido" onclick="toggleMenu()">Hacer pedido</a>
       <a href="#contacto" onclick="toggleMenu()">Contacto</a>
     </div>
   </header>
@@ -531,6 +532,125 @@
           <a class="btn-wa" href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20quiero%20ver%20el%20catálogo" target="_blank">Abrir WhatsApp</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ══ FORMULARIO DE PEDIDO ══ -->
+  <section class="formulario" id="pedido">
+    <div class="formulario-inner">
+      <div class="form-texto">
+        <p class="section-tag">Sin complicaciones</p>
+        <h2>Hacer un pedido</h2>
+        <p class="form-desc">Llena el formulario con tus datos y la prenda que quieres. Te contactamos por WhatsApp para confirmar disponibilidad y enviarte los datos bancarios para tu transferencia.</p>
+        <div class="form-pasos">
+          <div class="form-paso">
+            <span class="paso-num">1</span>
+            <span>Llena el formulario</span>
+          </div>
+          <div class="form-paso">
+            <span class="paso-num">2</span>
+            <span>Te enviamos datos de transferencia</span>
+          </div>
+          <div class="form-paso">
+            <span class="paso-num">3</span>
+            <span>Confirmas pago y enviamos tu pedido</span>
+          </div>
+        </div>
+        <div class="form-banco">
+          <p class="banco-label">Datos bancarios</p>
+          <p class="banco-info">Banco: <strong>BBVA / SPEI</strong></p>
+          <p class="banco-info">Titular: <strong>BRITE</strong></p>
+          <p class="banco-info">CLABE: <strong>— Te la enviamos por WhatsApp —</strong></p>
+        </div>
+      </div>
+      <div class="form-box">
+        <form id="pedidoForm" onsubmit="enviarPedido(event)">
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Tu nombre completo" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono">WhatsApp / Teléfono</label>
+              <input type="tel" id="telefono" placeholder="10 dígitos" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" placeholder="tu@correo.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="prenda">Prenda que deseas</label>
+            <input type="text" id="prenda" placeholder="Ej: Botas cowboy negras, Talla 24" required>
+          </div>
+          <div class="form-group">
+            <label for="direccion">Dirección de envío</label>
+            <input type="text" id="direccion" placeholder="Calle, número, colonia" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ciudad">Ciudad / Municipio</label>
+              <input type="text" id="ciudad" placeholder="Ciudad" required>
+            </div>
+            <div class="form-group">
+              <label for="estado">Estado</label>
+              <input type="text" id="estado" placeholder="Estado" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cp">Código postal</label>
+            <input type="text" id="cp" placeholder="CP" required>
+          </div>
+          <div class="form-group">
+            <label for="notas">Notas adicionales (opcional)</label>
+            <textarea id="notas" rows="3" placeholder="¿Alguna pregunta o comentario?"></textarea>
+          </div>
+          <button type="submit" class="btn-form">Enviar pedido por WhatsApp</button>
+          <p class="form-aviso">Al enviar, serás redirigida a WhatsApp con tu pedido listo. Nosotros confirmamos disponibilidad y te enviamos los datos de pago.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PAGO Y ENVÍO ══ -->
+  <section class="pago-envio">
+    <div class="section-head centered">
+      <p class="section-tag">Todo claro desde el inicio</p>
+      <h2>Pago y envío</h2>
+    </div>
+    <div class="pago-grid">
+
+      <div class="pago-card reveal">
+        <div class="pago-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <h3>Transferencia / SPEI</h3>
+        <p>Realizamos el apartado de tu pieza una vez confirmado el pago. Te enviamos los datos bancarios por WhatsApp.</p>
+        <span class="pago-tag">Pago 100% seguro</span>
+      </div>
+
+      <div class="pago-card reveal">
+        <div class="pago-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <h3>Envíos a todo México</h3>
+        <p>Enviamos por paquetería a cualquier estado de la república. El costo de envío se calcula según tu ubicación.</p>
+        <span class="pago-tag">Entrega en 2–5 días hábiles</span>
+      </div>
+
+      <div class="pago-card reveal">
+        <div class="pago-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3>Compra protegida</h3>
+        <p>Enviamos foto y video de la prenda antes de empacar. Tu pedido sale con guía de rastreo para que lo sigas en tiempo real.</p>
+        <span class="pago-tag">Guía de rastreo incluida</span>
+      </div>
+
+    </div>
+
+    <div class="pago-aviso">
+      <p>¿Tienes dudas sobre el proceso de compra? <a href="https://wa.me/5212381160056?text=Hola%20BRITE%2C%20tengo%20una%20duda%20sobre%20el%20proceso%20de%20compra" target="_blank">Escríbenos por WhatsApp</a> y te explicamos todo.</p>
     </div>
   </section>
 

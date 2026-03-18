@@ -572,29 +572,75 @@ function iniciarSesion() {
   }
 }
 
+// ══ Google Sheets API ══
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwPxN7qRp2ZuUDZg5q4D2EY0MMZojDIl-IXUCcxGAGooGnwfBRlRdRlN0YjMo0xOYTyqA/exec';
+
 // Registrar usuario
 function registrarUsuario() {
   var nombre = document.getElementById('regNombre').value.trim();
   var email  = document.getElementById('regEmail').value.trim();
   var pass   = document.getElementById('regPass').value;
   var wa     = document.getElementById('regWa').value.trim();
+  var acepta = document.getElementById('regTerms').checked;
 
   if (!nombre || !email || !pass) { mostrarToast('Por favor llena los campos obligatorios'); return; }
   if (!validarEmail(email)) { mostrarToast('Ingresa un correo electrónico válido'); return; }
   if (pass.length < 6) { mostrarToast('La contraseña debe tener al menos 6 caracteres'); return; }
 
+  // Verificar si ya existe localmente
   var usuarios = JSON.parse(localStorage.getItem('brite_usuarios') || '[]');
   if (usuarios.find(function(u) { return u.email === email; })) {
     mostrarToast('Ese correo ya está registrado'); return;
   }
 
-  var nuevoUsuario = { nombre: nombre, email: email, pass: btoa(pass), wa: wa, pedidos: 0, fechaRegistro: new Date().toLocaleDateString('es-MX') };
-  usuarios.push(nuevoUsuario);
-  localStorage.setItem('brite_usuarios', JSON.stringify(usuarios));
+  // Deshabilitar botón mientras procesa
+  var btn = document.querySelector('#formRegister .auth-btn');
+  if (btn) { btn.disabled = true; btn.querySelector('span').textContent = 'Creando cuenta...'; }
 
-  guardarUsuario(nuevoUsuario);
-  cerrarAuth();
-  mostrarToast('¡Cuenta creada! Bienvenida a BRITE ✦');
+  // Guardar en Google Sheets
+  var payload = {
+    fecha: new Date().toLocaleString('es-MX'),
+    nombre: nombre,
+    correo: email,
+    whatsapp: wa || 'No proporcionado',
+    acepta_noticias: acepta ? 'Sí' : 'No',
+    dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? 'Móvil' : 'Escritorio'
+  };
+
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function() {
+    // Guardar también localmente
+    var nuevoUsuario = {
+      nombre: nombre, email: email,
+      pass: btoa(pass), wa: wa,
+      pedidos: 0,
+      fechaRegistro: new Date().toLocaleDateString('es-MX')
+    };
+    usuarios.push(nuevoUsuario);
+    localStorage.setItem('brite_usuarios', JSON.stringify(usuarios));
+    guardarUsuario(nuevoUsuario);
+    cerrarAuth();
+    mostrarToast('¡Cuenta creada! Bienvenida a BRITE ✦');
+  }).catch(function() {
+    // Si falla el fetch, guardar solo localmente
+    var nuevoUsuario = {
+      nombre: nombre, email: email,
+      pass: btoa(pass), wa: wa,
+      pedidos: 0,
+      fechaRegistro: new Date().toLocaleDateString('es-MX')
+    };
+    usuarios.push(nuevoUsuario);
+    localStorage.setItem('brite_usuarios', JSON.stringify(usuarios));
+    guardarUsuario(nuevoUsuario);
+    cerrarAuth();
+    mostrarToast('¡Cuenta creada! Bienvenida a BRITE ✦');
+  }).finally(function() {
+    if (btn) { btn.disabled = false; btn.querySelector('span').textContent = 'Crear mi cuenta'; }
+  });
 }
 
 // Cerrar sesión

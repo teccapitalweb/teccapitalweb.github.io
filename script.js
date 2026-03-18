@@ -407,3 +407,48 @@ document.querySelectorAll('.cat-item, .step, .pago-card, .prop-item').forEach(fu
   el.classList.add('anim-ready');
   sectionObserver.observe(el);
 });
+
+// ══ BOUNCE ANIMACIÓN CARRITO ══
+function bounceCarritoIcon() {
+  var count = document.getElementById('carritoCount');
+  if (!count) return;
+  count.classList.remove('bounce');
+  void count.offsetWidth; // reflow
+  count.classList.add('bounce');
+  setTimeout(function() { count.classList.remove('bounce'); }, 400);
+}
+
+// Patch agregarCarrito para bounce
+var _agregarOriginal = agregarCarrito;
+agregarCarrito = function(nombre, precio, img) {
+  _agregarOriginal(nombre, precio, img);
+  bounceCarritoIcon();
+};
+
+// ══ EMPTY STATE EN BUSCADOR ══
+function mostrarEmptyState(visible) {
+  var el = document.getElementById('emptyState');
+  if (el) el.classList.toggle('visible', visible);
+}
+
+// Patch filtrarProductos para empty state
+var _filtrarOriginal = filtrarProductos;
+filtrarProductos = function() {
+  _filtrarOriginal();
+  var cards = document.querySelectorAll('.product-card[data-cat]');
+  var visibles = 0;
+  cards.forEach(function(c) { if (c.style.display !== 'none') visibles++; });
+  mostrarEmptyState(visibles === 0);
+};
+
+// ══ SMOOTH SCROLL CON OFFSET NAVBAR ══
+document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    var navH = document.getElementById('header').offsetHeight;
+    var top = target.getBoundingClientRect().top + window.scrollY - navH - 16;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  });
+});

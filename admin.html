@@ -51,7 +51,7 @@
     .admin-body { padding: 32px; max-width: 1400px; margin: 0 auto; }
 
     /* STATS */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
     .stat-card { background: var(--white); border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(28,25,23,0.07); border-left: 4px solid transparent; transition: all 0.25s; }
     .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,25,23,0.1); }
     .stat-card.gold { border-left-color: var(--gold); }
@@ -200,12 +200,17 @@
         <div class="stat-label">Usuarias</div>
         <div class="stat-num" id="statUsuarias">—</div>
       </div>
+      <div class="stat-card" style="border-left-color:#F59E0B">
+        <div class="stat-label">Opiniones</div>
+        <div class="stat-num" id="statOpiniones" style="color:#F59E0B">—</div>
+      </div>
     </div>
 
     <!-- TABS -->
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="mostrarTab('pedidos', this)">📦 Pedidos</button>
       <button class="admin-tab" onclick="mostrarTab('usuarias', this)">👤 Usuarias</button>
+      <button class="admin-tab" onclick="mostrarTab('opiniones', this)">⭐ Opiniones</button>
     </div>
 
     <!-- BUSCADOR PEDIDOS -->
@@ -300,6 +305,38 @@
       </table>
     </div>
 
+    <!-- BUSCADOR OPINIONES -->
+    <div id="buscadorOpiniones" class="buscar-wrap" style="display:none">
+      <label>Buscar:</label>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchOpNombre" placeholder="Nombre..." oninput="filtrarOpiniones()">
+      </div>
+      <button class="btn-limpiar" onclick="limpiarOpiniones()">✕ Limpiar</button>
+      <span class="resultados-count" id="countOpiniones"></span>
+    </div>
+
+    <!-- TABLA OPINIONES -->
+    <div id="tabOpiniones" class="table-wrap" style="display:none">
+      <div class="table-header">
+        <div class="table-title">Opiniones de clientas</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Clienta</th>
+            <th>Comentario</th>
+            <th>Foto</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaOpiniones">
+          <tr><td colspan="5" class="empty-msg">Cargando opiniones...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>
 
@@ -360,6 +397,7 @@ function cargarDatos() {
     document.getElementById('statUsuarias').textContent = usuariasData.length;
     renderUsuarias(usuariasData);
   });
+  cargarOpiniones();
 }
 
 // ══ FILTROS PEDIDOS ══
@@ -489,11 +527,69 @@ function renderUsuarias(lista) {
 function mostrarTab(tab, btn) {
   document.querySelectorAll('.admin-tab').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
-  var esPedidos = tab === 'pedidos';
-  document.getElementById('tabPedidos').style.display = esPedidos ? 'block' : 'none';
-  document.getElementById('tabUsuarias').style.display = esPedidos ? 'none' : 'block';
-  document.getElementById('buscadorPedidos').style.display = esPedidos ? 'flex' : 'none';
-  document.getElementById('buscadorUsuarias').style.display = esPedidos ? 'none' : 'flex';
+  document.getElementById('tabPedidos').style.display = tab === 'pedidos' ? 'block' : 'none';
+  document.getElementById('tabUsuarias').style.display = tab === 'usuarias' ? 'block' : 'none';
+  document.getElementById('tabOpiniones').style.display = tab === 'opiniones' ? 'block' : 'none';
+  document.getElementById('buscadorPedidos').style.display = tab === 'pedidos' ? 'flex' : 'none';
+  document.getElementById('buscadorUsuarias').style.display = tab === 'usuarias' ? 'flex' : 'none';
+  document.getElementById('buscadorOpiniones').style.display = tab === 'opiniones' ? 'flex' : 'none';
+}
+
+var opinionesData = [];
+
+function cargarOpiniones() {
+  sbGet('opiniones?select=*&order=fecha.desc').then(function(data) {
+    opinionesData = data || [];
+    document.getElementById('statOpiniones').textContent = opinionesData.length;
+    renderOpiniones(opinionesData);
+  });
+}
+
+function renderOpiniones(lista) {
+  var tbody = document.getElementById('tablaOpiniones');
+  if (!tbody) return;
+  if (!lista || !lista.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">No hay opiniones aún</td></tr>';
+    return;
+  }
+  tbody.innerHTML = lista.map(function(op) {
+    var fecha = op.fecha ? new Date(op.fecha).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    var foto = op.foto_url ? '<img src="' + op.foto_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:zoom-in" onclick="window.open('' + op.foto_url + '','_blank')">' : '<span style="color:var(--ink-soft);font-size:12px">Sin foto</span>';
+    return '<tr>' +
+      '<td><strong>' + (op.nombre || '—') + '</strong></td>' +
+      '<td style="max-width:300px;font-size:13px;color:var(--ink-mid);font-style:italic">"' + (op.comentario || '') + '"</td>' +
+      '<td>' + foto + '</td>' +
+      '<td style="font-size:13px">' + fecha + '</td>' +
+      '<td><button class="btn-estatus btn-cancelar" onclick="eliminarOpinion('' + op.id + '')">✕ Eliminar</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function eliminarOpinion(id) {
+  if (!confirm('¿Eliminar esta opinión?')) return;
+  fetch(SB_URL + '/rest/v1/opiniones?id=eq.' + id, {
+    method: 'DELETE',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+  }).then(function() {
+    mostrarToast('Opinión eliminada');
+    cargarOpiniones();
+  });
+}
+
+function filtrarOpiniones() {
+  var nombre = (document.getElementById('searchOpNombre').value || '').toLowerCase();
+  var filtrados = opinionesData.filter(function(op) {
+    return !nombre || (op.nombre || '').toLowerCase().includes(nombre);
+  });
+  renderOpiniones(filtrados);
+  var count = document.getElementById('countOpiniones');
+  count.textContent = nombre ? filtrados.length + ' resultado' + (filtrados.length !== 1 ? 's' : '') : '';
+}
+
+function limpiarOpiniones() {
+  document.getElementById('searchOpNombre').value = '';
+  document.getElementById('countOpiniones').textContent = '';
+  renderOpiniones(opinionesData);
 }
 
 function mostrarToast(msg) {

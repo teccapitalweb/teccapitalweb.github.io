@@ -62,6 +62,7 @@
       <a href="#categorias" onclick="toggleMenu()">Categorías</a>
       <a href="#catalogo" onclick="toggleMenu()">Catálogo</a>
       <a href="#sobre" onclick="toggleMenu()">Sobre BRITE</a>
+      <a href="#opiniones" onclick="toggleMenu()">Opiniones ⭐</a>
       <a href="#pedido" onclick="toggleMenu()">Hacer pedido</a>
       <a href="#contacto" onclick="toggleMenu()">Contacto</a>
     </div>
@@ -736,6 +737,54 @@
           </div>
         </div>
         <a class="btn-primary" href="https://www.instagram.com/britemx" target="_blank">Síguenos en Instagram</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ OPINIONES ══ -->
+  <section class="opiniones" id="opiniones">
+    <div class="opiniones-inner">
+      <div class="section-head" style="text-align:center">
+        <p class="section-tag">Lo que dicen de BRITE</p>
+        <h2>Opiniones</h2>
+        <p style="margin:0 auto">Prendas reales, clientas reales. Lee lo que opinan quienes ya compraron en BRITE.</p>
+      </div>
+
+      <!-- Grid de opiniones -->
+      <div class="opiniones-grid" id="opinionesGrid">
+        <div class="opinion-loading">Cargando opiniones...</div>
+      </div>
+
+      <!-- Formulario dejar opinión -->
+      <div class="opinion-form-wrap">
+        <h3 class="opinion-form-title">¿Ya compraste en BRITE? <em>Déjanos tu opinión</em></h3>
+        <div class="opinion-form" id="opinionForm">
+          <div class="opinion-form-fields">
+            <div class="of-group">
+              <label>Tu nombre</label>
+              <input type="text" id="opNombre" placeholder="¿Cómo te llamas?">
+            </div>
+            <div class="of-group">
+              <label>Tu comentario</label>
+              <textarea id="opComentario" rows="3" placeholder="Cuéntanos tu experiencia con BRITE..."></textarea>
+            </div>
+            <div class="of-group">
+              <label>Foto del producto recibido <span style="color:var(--ink-soft);font-weight:400">(opcional)</span></label>
+              <div class="of-foto-wrap" id="ofFotoWrap">
+                <input type="file" id="opFoto" accept="image/*" onchange="previewFoto(this)" style="display:none">
+                <div class="of-foto-btn" onclick="document.getElementById('opFoto').click()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+                  <span>Subir foto</span>
+                </div>
+                <img id="ofFotoPreview" style="display:none;width:80px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer" onclick="document.getElementById('opFoto').click()">
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="enviarOpinion()">
+            <span>Publicar opinión</span>
+          </button>
+        </div>
       </div>
     </div>
   </section>

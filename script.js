@@ -714,3 +714,113 @@ function togglePassword(id, btn) {
 function validarEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+// ══════════════════════════════
+//  OPINIONES
+// ══════════════════════════════
+
+var opinionFotoBase64 = null;
+
+// Cargar y mostrar opiniones
+function cargarOpiniones() {
+  sbFetch('opiniones?select=*&order=fecha.desc').then(function(data) {
+    var grid = document.getElementById('opinionesGrid');
+    if (!grid) return;
+    if (!data || !data.length) {
+      grid.innerHTML = '<div class="sin-opiniones"><div class="sin-opiniones-icon">✦</div><h4>Sé la primera en opinar</h4><p>Aún no hay opiniones — comparte tu experiencia con BRITE.</p></div>';
+      return;
+    }
+    grid.innerHTML = data.map(function(op) {
+      var inicial = (op.nombre || 'B')[0].toUpperCase();
+      var fecha = op.fecha ? new Date(op.fecha).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' }) : '';
+      var foto = op.foto_url ? '<img src="' + op.foto_url + '" class="opinion-foto" onclick="abrirZoomUrl(\'' + op.foto_url + '\', \'' + op.nombre + '\')" alt="Foto de ' + op.nombre + '">' : '';
+      return '<div class="opinion-card">' +
+        '<div class="opinion-header">' +
+        '<div class="opinion-avatar">' + inicial + '</div>' +
+        '<div><div class="opinion-nombre">' + op.nombre + '</div><div class="opinion-fecha">' + fecha + '</div></div>' +
+        '</div>' +
+        '<p class="opinion-comentario">"' + op.comentario + '"</p>' +
+        foto +
+        '<div class="opinion-marca">✦ BRITE</div>' +
+        '</div>';
+    }).join('');
+  }).catch(function() {
+    var grid = document.getElementById('opinionesGrid');
+    if (grid) grid.innerHTML = '<div class="sin-opiniones"><div class="sin-opiniones-icon">✦</div><h4>Cargando opiniones...</h4></div>';
+  });
+}
+
+// Preview foto antes de subir
+function previewFoto(input) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    opinionFotoBase64 = e.target.result;
+    var preview = document.getElementById('ofFotoPreview');
+    var btn = document.querySelector('.of-foto-btn');
+    if (preview) { preview.src = opinionFotoBase64; preview.style.display = 'block'; }
+    if (btn) btn.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+// Enviar opinión
+function enviarOpinion() {
+  var nombre = document.getElementById('opNombre') ? document.getElementById('opNombre').value.trim() : '';
+  var comentario = document.getElementById('opComentario') ? document.getElementById('opComentario').value.trim() : '';
+
+  if (!nombre) { mostrarToast('Por favor escribe tu nombre'); return; }
+  if (!comentario) { mostrarToast('Por favor escribe tu comentario'); return; }
+
+  var btn = document.querySelector('#opinionForm .btn-primary');
+  if (btn) { btn.disabled = true; btn.querySelector('span').textContent = 'Publicando...'; }
+
+  var payload = {
+    nombre: nombre,
+    comentario: comentario,
+    foto_url: opinionFotoBase64 || null,
+    usuaria_id: usuarioActual ? usuarioActual.id : null
+  };
+
+  sbFetch('opiniones', 'POST', payload).then(function(data) {
+    if (data && data[0]) {
+      mostrarToast('¡Gracias por tu opinión! ✦');
+      document.getElementById('opNombre').value = '';
+      document.getElementById('opComentario').value = '';
+      opinionFotoBase64 = null;
+      var preview = document.getElementById('ofFotoPreview');
+      var fotoBtn = document.querySelector('.of-foto-btn');
+      if (preview) { preview.src = ''; preview.style.display = 'none'; }
+      if (fotoBtn) fotoBtn.style.display = 'inline-flex';
+      cargarOpiniones();
+    } else {
+      mostrarToast('Error al publicar, intenta de nuevo');
+    }
+  }).catch(function() {
+    mostrarToast('Error de conexión, intenta de nuevo');
+  }).finally(function() {
+    if (btn) { btn.disabled = false; btn.querySelector('span').textContent = 'Publicar opinión'; }
+  });
+}
+
+// Zoom para fotos de opiniones
+function abrirZoomUrl(url, nombre) {
+  var modal = document.getElementById('zoomModal');
+  var overlay = document.getElementById('zoomOverlay');
+  var zoomImg = document.getElementById('zoomImg');
+  var zoomNombre = document.getElementById('zoomNombre');
+  var zoomPrecio = document.getElementById('zoomPrecio');
+  if (!modal) return;
+  zoomImg.src = url;
+  if (zoomNombre) zoomNombre.textContent = nombre;
+  if (zoomPrecio) zoomPrecio.textContent = 'Opinión verificada ✦';
+  overlay.classList.add('open');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// Cargar opiniones al iniciar
+document.addEventListener('DOMContentLoaded', function() {
+  cargarOpiniones();
+});

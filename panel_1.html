@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRITE — Panel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C4956A; --gold-dark: #A67750; --gold-light: #EDD9C0;
+      --ink: #1C1917; --ink-mid: #57534E; --ink-soft: #A8A29E;
+      --bg: #FAFAF8; --bg-alt: #F4F1EC; --bg-dark: #1C1917;
+      --white: #FFFFFF; --success: #4A7C59; --error: #C0392B;
+      --font: 'Poppins', sans-serif; --font-d: 'Montserrat', sans-serif;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* LOGIN */
+    .login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-dark); position: relative; overflow: hidden;
+    }
+    .login-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; pointer-events: none; }
+    .login-orb1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(196,149,106,0.8), transparent); top: -100px; right: -100px; }
+    .login-orb2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(196,149,106,0.5), transparent); bottom: -80px; left: -80px; }
+    .login-box {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(196,149,106,0.2);
+      border-radius: 20px; padding: 48px 40px; width: 380px;
+      position: relative; z-index: 2; backdrop-filter: blur(10px);
+    }
+    .login-logo { font-family: var(--font-d); font-size: 32px; font-weight: 700; color: var(--gold); text-align: center; margin-bottom: 8px; }
+    .login-sub { font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 32px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .login-field { margin-bottom: 16px; }
+    .login-field label { display: block; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+    .login-field input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 16px; color: white; font-family: var(--font); font-size: 15px; outline: none; transition: border-color 0.2s; }
+    .login-field input:focus { border-color: var(--gold); }
+    .login-btn { width: 100%; padding: 13px; background: var(--gold); color: white; border: none; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 10px; margin-top: 8px; transition: all 0.25s; }
+    .login-btn:hover { background: var(--gold-dark); transform: translateY(-2px); }
+    .login-error { color: #E53935; font-size: 12px; text-align: center; margin-top: 12px; display: none; }
+
+    /* ADMIN */
+    .admin { display: none; }
+    .admin-nav { background: var(--bg-dark); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(196,149,106,0.15); position: sticky; top: 0; z-index: 100; }
+    .admin-nav-brand { font-family: var(--font-d); font-size: 20px; font-weight: 700; color: var(--gold); }
+    .admin-nav-right { display: flex; align-items: center; gap: 16px; }
+    .admin-nav-user { font-size: 13px; color: rgba(255,255,255,0.5); }
+    .admin-logout { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); font-family: var(--font); font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
+    .admin-logout:hover { background: rgba(255,255,255,0.15); color: white; }
+
+    .admin-body { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--white); border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(28,25,23,0.07); border-left: 4px solid transparent; transition: all 0.25s; }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,25,23,0.1); }
+    .stat-card.gold { border-left-color: var(--gold); }
+    .stat-card.green { border-left-color: var(--success); }
+    .stat-card.blue { border-left-color: #3B82F6; }
+    .stat-card.purple { border-left-color: #8B5CF6; }
+    .stat-label { font-size: 11px; font-weight: 600; color: var(--ink-soft); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .stat-num { font-family: var(--font-d); font-size: 32px; font-weight: 700; color: var(--ink); }
+    .stat-card.gold .stat-num { color: var(--gold); }
+    .stat-card.green .stat-num { color: var(--success); }
+    .stat-card.blue .stat-num { color: #3B82F6; }
+    .stat-card.purple .stat-num { color: #8B5CF6; }
+
+    /* TABS */
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+    .admin-tab { padding: 9px 20px; background: var(--bg-alt); border: none; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--ink-mid); border-radius: 100px; transition: all 0.2s; }
+    .admin-tab.active { background: var(--ink); color: white; }
+    .admin-tab:hover:not(.active) { background: var(--gold-light); color: var(--gold-dark); }
+
+    /* BUSCADORES */
+    .buscar-wrap {
+      background: var(--white); border-radius: 16px; padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(28,25,23,0.07); margin-bottom: 16px;
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    }
+    .buscar-wrap label { font-size: 11px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0; white-space: nowrap; }
+    .search-input-wrap {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg-alt); border: 2px solid transparent;
+      border-radius: 10px; padding: 0 14px; flex: 1; min-width: 160px;
+      transition: border-color 0.2s;
+    }
+    .search-input-wrap:focus-within { border-color: var(--gold); background: white; }
+    .search-input-wrap svg { color: var(--ink-soft); flex-shrink: 0; }
+    .search-input-wrap input { border: none; background: none; padding: 10px 6px; font-family: var(--font); font-size: 14px; outline: none; width: 100%; }
+    .search-select {
+      background: var(--bg-alt); border: 2px solid transparent;
+      border-radius: 10px; padding: 10px 14px; font-family: var(--font); font-size: 14px;
+      color: var(--ink); outline: none; cursor: pointer; min-width: 140px;
+      transition: border-color 0.2s;
+    }
+    .search-select:focus { border-color: var(--gold); background: white; }
+    .btn-limpiar {
+      padding: 10px 18px; background: var(--bg-alt); border: none; cursor: pointer;
+      font-family: var(--font); font-size: 12px; font-weight: 600; color: var(--ink-mid);
+      border-radius: 10px; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-limpiar:hover { background: var(--gold-light); color: var(--gold-dark); }
+    .resultados-count { font-size: 12px; color: var(--ink-soft); font-weight: 500; margin-left: auto; }
+
+    /* TABLA */
+    .table-wrap { background: var(--white); border-radius: 16px; box-shadow: 0 2px 12px rgba(28,25,23,0.07); overflow: hidden; }
+    .table-header { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold-light); }
+    .table-title { font-family: var(--font-d); font-size: 18px; font-weight: 700; color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--bg-alt); }
+    th { padding: 12px 16px; font-size: 11px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.1em; text-transform: uppercase; text-align: left; }
+    td { padding: 14px 16px; font-size: 14px; color: var(--ink); border-bottom: 1px solid var(--bg-alt); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(196,149,106,0.04); }
+
+    .badge-estatus { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+    .badge-estatus.pendiente { background: #FEF3C7; color: #92400E; }
+    .badge-estatus.pagado { background: #D1FAE5; color: #065F46; }
+    .badge-estatus.enviado { background: #DBEAFE; color: #1E40AF; }
+    .badge-estatus.entregado { background: #E0E7FF; color: #3730A3; }
+    .badge-estatus.cancelado { background: #FEE2E2; color: #991B1B; }
+
+    .btn-estatus { display: flex; align-items: center; gap: 4px; padding: 6px 12px; border: none; border-radius: 8px; cursor: pointer; font-family: var(--font); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+    .btn-pagar { background: #D1FAE5; color: #065F46; }
+    .btn-pagar:hover { background: #6EE7B7; }
+    .btn-enviar { background: #DBEAFE; color: #1E40AF; }
+    .btn-enviar:hover { background: #93C5FD; }
+    .btn-entregar { background: #E0E7FF; color: #3730A3; }
+    .btn-entregar:hover { background: #A5B4FC; }
+    .btn-cancelar { background: #FEE2E2; color: #991B1B; }
+    .btn-cancelar:hover { background: #FCA5A5; }
+    .acciones { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .empty-msg { text-align: center; padding: 48px; color: var(--ink-soft); font-size: 14px; }
+
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .user-info { display: flex; align-items: center; gap: 10px; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; padding: 12px 24px; border-radius: 100px; font-size: 13px; font-weight: 600; border-left: 4px solid var(--gold); box-shadow: 0 8px 24px rgba(0,0,0,0.2); opacity: 0; transition: all 0.3s; z-index: 9999; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .admin-body { padding: 16px; }
+      .buscar-wrap { flex-direction: column; }
+      .search-input-wrap { min-width: unset; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-orb login-orb1"></div>
+  <div class="login-orb login-orb2"></div>
+  <div class="login-box">
+    <div class="login-logo">BRITE</div>
+    <p class="login-sub">Panel de Administración</p>
+    <div class="login-field">
+      <label>Usuario</label>
+      <input type="text" id="adminUser" placeholder="admin" onkeydown="if(event.key==='Enter')iniciarAdmin()">
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')iniciarAdmin()">
+    </div>
+    <button class="login-btn" onclick="iniciarAdmin()">Entrar al panel</button>
+    <p class="login-error" id="loginError">Usuario o contraseña incorrectos</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin" id="adminPanel">
+  <nav class="admin-nav">
+    <div class="admin-nav-brand">BRITE Admin</div>
+    <div class="admin-nav-right">
+      <span class="admin-nav-user">Administrador</span>
+      <button class="admin-logout" onclick="cerrarAdmin()">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card gold">
+        <div class="stat-label">Total pedidos</div>
+        <div class="stat-num" id="statTotal">—</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Pendientes</div>
+        <div class="stat-num" id="statPendiente">—</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Pagados</div>
+        <div class="stat-num" id="statPagado">—</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-label">Usuarias</div>
+        <div class="stat-num" id="statUsuarias">—</div>
+      </div>
+      <div class="stat-card" style="border-left-color:#F59E0B">
+        <div class="stat-label">Opiniones</div>
+        <div class="stat-num" id="statOpiniones" style="color:#F59E0B">—</div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="mostrarTab('pedidos', this)">📦 Pedidos</button>
+      <button class="admin-tab" onclick="mostrarTab('usuarias', this)">👤 Usuarias</button>
+      <button class="admin-tab" onclick="mostrarTab('opiniones', this)">⭐ Opiniones</button>
+    </div>
+
+    <!-- BUSCADOR PEDIDOS -->
+    <div id="buscadorPedidos" class="buscar-wrap">
+      <label>Buscar:</label>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchNombre" placeholder="Nombre del cliente..." oninput="filtrarPedidos()">
+      </div>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.29 6.29l1.58-1.58a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <input type="text" id="searchWa" placeholder="WhatsApp..." oninput="filtrarPedidos()">
+      </div>
+      <select class="search-select" id="searchEstatus" onchange="filtrarPedidos()">
+        <option value="">Todos los estatus</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="pagado">Pagado</option>
+        <option value="enviado">Enviado</option>
+        <option value="entregado">Entregado</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
+      <button class="btn-limpiar" onclick="limpiarBusquedaPedidos()">✕ Limpiar</button>
+      <span class="resultados-count" id="countPedidos"></span>
+    </div>
+
+    <!-- TABLA PEDIDOS -->
+    <div id="tabPedidos" class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">Pedidos</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>WhatsApp</th>
+            <th>Prendas</th>
+            <th>Total</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaPedidos">
+          <tr><td colspan="7" class="empty-msg">Cargando pedidos...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BUSCADOR USUARIAS -->
+    <div id="buscadorUsuarias" class="buscar-wrap" style="display:none">
+      <label>Buscar:</label>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchUsuariaNombre" placeholder="Nombre..." oninput="filtrarUsuarias()">
+      </div>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        <input type="text" id="searchUsuariaEmail" placeholder="Correo electrónico..." oninput="filtrarUsuarias()">
+      </div>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.29 6.29l1.58-1.58a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <input type="text" id="searchUsuariaWa" placeholder="WhatsApp..." oninput="filtrarUsuarias()">
+      </div>
+      <select class="search-select" id="searchAcepta" onchange="filtrarUsuarias()">
+        <option value="">Acepta noticias: Todas</option>
+        <option value="true">Sí acepta</option>
+        <option value="false">No acepta</option>
+      </select>
+      <button class="btn-limpiar" onclick="limpiarBusquedaUsuarias()">✕ Limpiar</button>
+      <span class="resultados-count" id="countUsuarias"></span>
+    </div>
+
+    <!-- TABLA USUARIAS -->
+    <div id="tabUsuarias" class="table-wrap" style="display:none">
+      <div class="table-header">
+        <div class="table-title">Usuarias registradas</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Usuaria</th>
+            <th>Correo</th>
+            <th>WhatsApp</th>
+            <th>Acepta noticias</th>
+            <th>Dispositivo</th>
+            <th>Fecha registro</th>
+          </tr>
+        </thead>
+        <tbody id="tablaUsuarias">
+          <tr><td colspan="6" class="empty-msg">Cargando usuarias...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BUSCADOR OPINIONES -->
+    <div id="buscadorOpiniones" class="buscar-wrap" style="display:none">
+      <label>Buscar:</label>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchOpNombre" placeholder="Nombre..." oninput="filtrarOpiniones()">
+      </div>
+      <button class="btn-limpiar" onclick="limpiarOpiniones()">✕ Limpiar</button>
+      <span class="resultados-count" id="countOpiniones"></span>
+    </div>
+
+    <!-- TABLA OPINIONES -->
+    <div id="tabOpiniones" class="table-wrap" style="display:none">
+      <div class="table-header">
+        <div class="table-title">Opiniones de clientas</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Clienta</th>
+            <th>Comentario</th>
+            <th>Foto</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaOpiniones">
+          <tr><td colspan="5" class="empty-msg">Cargando opiniones...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var SB_URL = 'https://gcvsiyqjhkzltgjnrzdo.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjdnNpeXFqaGt6bHRnam5yemRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzI4NTAsImV4cCI6MjA4OTQ0ODg1MH0.TVs1GYMi550A73De3-9ceiu45VswZmbYDJW1oNvcSv0';
+var ADMIN_USER = 'brite';
+var ADMIN_PASS = 'brite2026';
+
+var pedidosData = [];
+var usuariasData = [];
+
+function sbGet(endpoint) {
+  return fetch(SB_URL + '/rest/v1/' + endpoint, {
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+  }).then(function(r) { return r.json(); });
+}
+
+function sbPatch(endpoint, body) {
+  return fetch(SB_URL + '/rest/v1/' + endpoint, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(body)
+  }).then(function(r) { return r.json(); });
+}
+
+function iniciarAdmin() {
+  var u = document.getElementById('adminUser').value.trim();
+  var p = document.getElementById('adminPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    cargarDatos();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function cerrarAdmin() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+}
+
+function cargarDatos() {
+  sbGet('pedidos?select=*&order=fecha.desc').then(function(data) {
+    pedidosData = data || [];
+    renderPedidos(pedidosData);
+    document.getElementById('statTotal').textContent = pedidosData.length;
+    document.getElementById('statPendiente').textContent = pedidosData.filter(function(p) { return p.estatus === 'pendiente'; }).length;
+    document.getElementById('statPagado').textContent = pedidosData.filter(function(p) { return p.estatus === 'pagado'; }).length;
+  });
+  sbGet('usuarias?select=*&order=fecha_registro.desc').then(function(data) {
+    usuariasData = data || [];
+    document.getElementById('statUsuarias').textContent = usuariasData.length;
+    renderUsuarias(usuariasData);
+  });
+  cargarOpiniones();
+}
+
+// ══ FILTROS PEDIDOS ══
+function filtrarPedidos() {
+  var nombre = (document.getElementById('searchNombre').value || '').toLowerCase();
+  var wa = (document.getElementById('searchWa').value || '').toLowerCase();
+  var estatus = document.getElementById('searchEstatus').value;
+
+  var filtrados = pedidosData.filter(function(p) {
+    var matchNombre = !nombre || (p.nombre_cliente || '').toLowerCase().includes(nombre);
+    var matchWa = !wa || (p.whatsapp || '').includes(wa);
+    var matchEstatus = !estatus || p.estatus === estatus;
+    return matchNombre && matchWa && matchEstatus;
+  });
+
+  renderPedidos(filtrados);
+  var count = document.getElementById('countPedidos');
+  count.textContent = (nombre || wa || estatus) ? filtrados.length + ' resultado' + (filtrados.length !== 1 ? 's' : '') : '';
+}
+
+function limpiarBusquedaPedidos() {
+  document.getElementById('searchNombre').value = '';
+  document.getElementById('searchWa').value = '';
+  document.getElementById('searchEstatus').value = '';
+  document.getElementById('countPedidos').textContent = '';
+  renderPedidos(pedidosData);
+}
+
+// ══ FILTROS USUARIAS ══
+function filtrarUsuarias() {
+  var nombre = (document.getElementById('searchUsuariaNombre').value || '').toLowerCase();
+  var email = (document.getElementById('searchUsuariaEmail').value || '').toLowerCase();
+  var wa = (document.getElementById('searchUsuariaWa').value || '').toLowerCase();
+  var acepta = document.getElementById('searchAcepta').value;
+
+  var filtrados = usuariasData.filter(function(u) {
+    var matchNombre = !nombre || (u.nombre || '').toLowerCase().includes(nombre);
+    var matchEmail = !email || (u.email || '').toLowerCase().includes(email);
+    var matchWa = !wa || (u.whatsapp || '').includes(wa);
+    var matchAcepta = !acepta || String(u.acepta_noticias) === acepta;
+    return matchNombre && matchEmail && matchWa && matchAcepta;
+  });
+
+  renderUsuarias(filtrados);
+  var count = document.getElementById('countUsuarias');
+  count.textContent = (nombre || email || wa || acepta) ? filtrados.length + ' resultado' + (filtrados.length !== 1 ? 's' : '') : '';
+}
+
+function limpiarBusquedaUsuarias() {
+  document.getElementById('searchUsuariaNombre').value = '';
+  document.getElementById('searchUsuariaEmail').value = '';
+  document.getElementById('searchUsuariaWa').value = '';
+  document.getElementById('searchAcepta').value = '';
+  document.getElementById('countUsuarias').textContent = '';
+  renderUsuarias(usuariasData);
+}
+
+// ══ RENDER PEDIDOS ══
+function renderPedidos(lista) {
+  var tbody = document.getElementById('tablaPedidos');
+  if (!lista || !lista.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">No se encontraron pedidos</td></tr>';
+    return;
+  }
+  tbody.innerHTML = lista.map(function(p) {
+    var prendas = '';
+    try {
+      var prods = typeof p.productos === 'string' ? JSON.parse(p.productos) : p.productos;
+      prendas = prods.map(function(x) { return x.nombre; }).join(', ');
+    } catch(e) { prendas = '—'; }
+    var fecha = p.fecha ? new Date(p.fecha).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    return '<tr>' +
+      '<td><strong>' + (p.nombre_cliente || '—') + '</strong></td>' +
+      '<td><a href="https://wa.me/52' + (p.whatsapp || '') + '" target="_blank" style="color:var(--gold);font-weight:600">' + (p.whatsapp || '—') + '</a></td>' +
+      '<td style="max-width:180px;font-size:13px;color:var(--ink-mid)">' + prendas + '</td>' +
+      '<td><strong>$' + Number(p.total || 0).toLocaleString('es-MX') + '</strong></td>' +
+      '<td style="font-size:13px">' + fecha + '</td>' +
+      '<td><span class="badge-estatus ' + (p.estatus || 'pendiente') + '">' + (p.estatus || 'pendiente') + '</span></td>' +
+      '<td><div class="acciones">' + generarAcciones(p.id, p.estatus) + '</div></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function generarAcciones(id, estatus) {
+  var btns = '';
+  if (estatus === 'pendiente') {
+    btns += '<button class="btn-estatus btn-pagar" onclick="cambiarEstatus(\'' + id + '\', \'pagado\')">✓ Pagado</button>';
+    btns += '<button class="btn-estatus btn-cancelar" onclick="cambiarEstatus(\'' + id + '\', \'cancelado\')">✕ Cancelar</button>';
+  } else if (estatus === 'pagado') {
+    btns += '<button class="btn-estatus btn-enviar" onclick="cambiarEstatus(\'' + id + '\', \'enviado\')">📦 Enviado</button>';
+  } else if (estatus === 'enviado') {
+    btns += '<button class="btn-estatus btn-entregar" onclick="cambiarEstatus(\'' + id + '\', \'entregado\')">✓ Entregado</button>';
+  } else {
+    btns += '<span style="font-size:12px;color:var(--ink-soft)">Completado</span>';
+  }
+  return btns;
+}
+
+function cambiarEstatus(id, nuevoEstatus) {
+  sbPatch('pedidos?id=eq.' + id, { estatus: nuevoEstatus }).then(function() {
+    mostrarToast('Pedido marcado como ' + nuevoEstatus + ' ✦');
+    cargarDatos();
+  });
+}
+
+// ══ RENDER USUARIAS ══
+function renderUsuarias(lista) {
+  var tbody = document.getElementById('tablaUsuarias');
+  if (!lista || !lista.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-msg">No se encontraron usuarias</td></tr>';
+    return;
+  }
+  tbody.innerHTML = lista.map(function(u) {
+    var inicial = (u.nombre || 'B')[0].toUpperCase();
+    var fecha = u.fecha_registro ? new Date(u.fecha_registro).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    return '<tr>' +
+      '<td><div class="user-info"><div class="user-avatar">' + inicial + '</div><strong>' + (u.nombre || '—') + '</strong></div></td>' +
+      '<td>' + (u.email || '—') + '</td>' +
+      '<td><a href="https://wa.me/52' + (u.whatsapp || '') + '" target="_blank" style="color:var(--gold);font-weight:600">' + (u.whatsapp || '—') + '</a></td>' +
+      '<td><span style="color:' + (u.acepta_noticias ? 'var(--success)' : 'var(--ink-soft)') + ';font-weight:600">' + (u.acepta_noticias ? '✓ Sí' : '✗ No') + '</span></td>' +
+      '<td>' + (u.dispositivo || '—') + '</td>' +
+      '<td>' + fecha + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function mostrarTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tabPedidos').style.display = tab === 'pedidos' ? 'block' : 'none';
+  document.getElementById('tabUsuarias').style.display = tab === 'usuarias' ? 'block' : 'none';
+  document.getElementById('tabOpiniones').style.display = tab === 'opiniones' ? 'block' : 'none';
+  document.getElementById('buscadorPedidos').style.display = tab === 'pedidos' ? 'flex' : 'none';
+  document.getElementById('buscadorUsuarias').style.display = tab === 'usuarias' ? 'flex' : 'none';
+  document.getElementById('buscadorOpiniones').style.display = tab === 'opiniones' ? 'flex' : 'none';
+}
+
+var opinionesData = [];
+
+function cargarOpiniones() {
+  sbGet('opiniones?select=*&order=fecha.desc').then(function(data) {
+    opinionesData = data || [];
+    document.getElementById('statOpiniones').textContent = opinionesData.length;
+    renderOpiniones(opinionesData);
+  });
+}
+
+function renderOpiniones(lista) {
+  var tbody = document.getElementById('tablaOpiniones');
+  if (!tbody) return;
+  if (!lista || !lista.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">No hay opiniones aún</td></tr>';
+    return;
+  }
+  tbody.innerHTML = lista.map(function(op) {
+    var fecha = op.fecha ? new Date(op.fecha).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    var foto = op.foto_url ? '<img src="' + op.foto_url + '" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:zoom-in" onclick="window.open('' + op.foto_url + '','_blank')">' : '<span style="color:var(--ink-soft);font-size:12px">Sin foto</span>';
+    return '<tr>' +
+      '<td><strong>' + (op.nombre || '—') + '</strong></td>' +
+      '<td style="max-width:300px;font-size:13px;color:var(--ink-mid);font-style:italic">"' + (op.comentario || '') + '"</td>' +
+      '<td>' + foto + '</td>' +
+      '<td style="font-size:13px">' + fecha + '</td>' +
+      '<td><button class="btn-estatus btn-cancelar" onclick="eliminarOpinion('' + op.id + '')">✕ Eliminar</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function eliminarOpinion(id) {
+  if (!confirm('¿Eliminar esta opinión?')) return;
+  fetch(SB_URL + '/rest/v1/opiniones?id=eq.' + id, {
+    method: 'DELETE',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+  }).then(function() {
+    mostrarToast('Opinión eliminada');
+    cargarOpiniones();
+  });
+}
+
+function filtrarOpiniones() {
+  var nombre = (document.getElementById('searchOpNombre').value || '').toLowerCase();
+  var filtrados = opinionesData.filter(function(op) {
+    return !nombre || (op.nombre || '').toLowerCase().includes(nombre);
+  });
+  renderOpiniones(filtrados);
+  var count = document.getElementById('countOpiniones');
+  count.textContent = nombre ? filtrados.length + ' resultado' + (filtrados.length !== 1 ? 's' : '') : '';
+}
+
+function limpiarOpiniones() {
+  document.getElementById('searchOpNombre').value = '';
+  document.getElementById('countOpiniones').textContent = '';
+  renderOpiniones(opinionesData);
+}
+
+function mostrarToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+</script>
+</body>
+</html>
